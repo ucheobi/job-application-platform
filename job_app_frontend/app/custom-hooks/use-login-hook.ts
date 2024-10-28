@@ -1,24 +1,24 @@
 import { useState } from "react";
-import { useSignInMutate } from "../server/mutations/use-signin-mutate";
+import { useSignInMutate } from "../actions/mutations/use-signin-mutate";
 import { UserLogin } from "../types";
 
 export const UseLoginHook = () => {
-    const [user, setUser] = useState<UserLogin>({
+    const [loginData, setLoginData] = useState<UserLogin>({
         username: "",
         password: ""
     })
 
-    const {loginMutate } = useSignInMutate()
+    const { loginMutate } = useSignInMutate()
 
 
-    const handleSubmitUser = (event: React.MouseEvent<HTMLButtonElement>) => {
-       event.preventDefault()
-       loginMutate(user)
+    const handleSubmitUser = (ev: React.MouseEvent<HTMLButtonElement>) => {
+       ev.preventDefault()
+       loginMutate(loginData)
     }
 
     return {
-        user,
-        setUser,
+        loginData,
+        setLoginData,
         handleSubmitUser,
     }
 }

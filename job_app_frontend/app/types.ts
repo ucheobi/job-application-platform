@@ -9,8 +9,8 @@ export type UserBase = {
 }
 
 export type UserRegister =  UserBase & {
-    firstName: string;
-    lastName: string;
+    first_name: string;
+    last_name: string;
     role: Role
 }
 

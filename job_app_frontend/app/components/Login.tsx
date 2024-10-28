@@ -19,9 +19,7 @@ const Login = () => {
                 id='username'
                 label="Your Email Address"
                 name='username'
-                type='user'
-                autoComplete='email'
-                autoFocus
+                type='username'
                 value={loginData.username}
                 className='mx-auto my-4 w-3/4 md:w-1/2 self-center'
                 onChange={e => {
@@ -37,11 +35,7 @@ const Login = () => {
                 required
                 fullWidth
                 type='password'
-                id='password'
                 label="Your Password"
-                name='password'
-                autoComplete='password'
-                autoFocus
                 value={loginData.password}
                 className='mx-auto my-2 w-3/4 md:w-1/2 self-center'
                 onChange={e => {

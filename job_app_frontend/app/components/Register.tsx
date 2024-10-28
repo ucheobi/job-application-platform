@@ -14,8 +14,14 @@ import { Role } from '../types'
 const Register = () => {
     const {  
         userData,
+        emailError,
+        emailHelperMessage,
+        passwordError,
+        passwordHelperMessage,
         setUserData,
-        handleSubmitUser
+        handleSubmitUser,
+        handleChangeEmail,
+        handleChangePassword
     } 
     = UseRegisterHook();
 
@@ -50,7 +56,6 @@ const Register = () => {
                 label="Last Name"
                 name='last_name'
                 autoComplete='last_name'
-                autoFocus
                 value={userData.last_name}
                 className='mx-auto my-2 w-3/4 md:m-5 md:w-1/2 self-center'
                 onChange={e => {
@@ -65,39 +70,26 @@ const Register = () => {
                 variant='outlined'
                 required
                 fullWidth
-                id='email'
+                autoCapitalize='email'
                 label="Email Address"
-                name='email'
-                autoComplete='email'
+                error={emailError}
+                helperText={emailHelperMessage}
                 className='mx-auto my-2 w-3/4 md:m-5 md:w-1/2 self-center'
-                autoFocus
                 value={userData.email}
-                onChange={e => {
-                    setUserData({
-                        ...userData,
-                        email: e.target.value
-                    })
-                }}
+                onChange={handleChangeEmail}
             />
 
             <TextField
                 variant='outlined'
                 required
                 fullWidth
-                id='password'
                 type='password'
                 label="Password"
-                name='password'
-                autoComplete='password'
-                autoFocus
                 value={userData.password}
                 className='mx-auto my-2 w-3/4 md:m-5 md:w-1/2 self-center'
-                onChange={e => {
-                    setUserData({
-                        ...userData,
-                        password: e.target.value
-                    })
-                }}
+                onChange={handleChangePassword}
+                error={passwordError}
+                helperText={passwordHelperMessage}
             />          
 
             <FormControl required size='small' className='my-3 mx-auto w-2/6 md:w-2/6'>
