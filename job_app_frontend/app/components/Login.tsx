@@ -6,11 +6,11 @@ import Typography from '@mui/material/Typography'
 import { UseLoginHook } from '../custom-hooks/use-login-hook'
 
 const Login = () => {
-    const { user, handleSubmitUser, setUser} = UseLoginHook();
+    const { loginData, handleSubmitUser, setLoginData} = UseLoginHook();
 
   return (
-        <Box className="flex flex-col h-screen justify-center">
-            <Typography className='h-1 m-12 text-3xl self-center font-extrabold font-sans'>Sign In to Your Account</Typography>
+        <Box className="flex flex-col md:h-screen justify-center">
+            <Typography className='mb-2 text-lg font-bold md:m-12 md:text-3xl self-center md:font-extrabold font-sans'>Sign In to Your Account</Typography>
 
             <TextField
                 variant='outlined'
@@ -22,14 +22,13 @@ const Login = () => {
                 type='user'
                 autoComplete='email'
                 autoFocus
-                value={user.username}
-                className='m-5 w-2/6 self-center'
+                value={loginData.username}
+                className='mx-auto my-4 w-3/4 md:w-1/2 self-center'
                 onChange={e => {
-                    setUser({
-                        ...user,
+                    setLoginData({
+                        ...loginData,
                         username: e.target.value
                     })
-
                 }}
             />
 
@@ -43,11 +42,11 @@ const Login = () => {
                 name='password'
                 autoComplete='password'
                 autoFocus
-                value={user.password}
-                className='mb-8 w-2/6 self-center'
+                value={loginData.password}
+                className='mx-auto my-2 w-3/4 md:w-1/2 self-center'
                 onChange={e => {
-                    setUser({
-                        ...user,
+                    setLoginData({
+                        ...loginData,
                         password: e.target.value
                     })
 
@@ -57,7 +56,8 @@ const Login = () => {
             <Button 
                 variant="contained" 
                 onClick={handleSubmitUser} 
-                className='w-1/4 p-4 font-extrabold self-center rounded-lg shadow-none hover:bg-blue-800 hover:shadow-none'
+                className='w-3/5 mt-6 p-2 md:w-1/4 md:p-4 md:font-extrabold bg-sky-600 
+                    self-center rounded-lg shadow-none hover:bg-sky-400 hover:shadow-none'
             >
                 Sign In
             </Button>

@@ -8,24 +8,25 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
 
-
 const Account = () => {
   const {newUser, handleSetNewUser} = UseRegisterHook()
 
   return (
-    <Box className='flex w-screen h-screen p-0 m-0'>
-      <Box className="w-2/3 justify-center items-center">{newUser ? <Login /> : <Register /> }</Box>
+    <Box className='flex flex-col md:flex-row w-screen h-screen p-0 m-0'>
+      <Box className="my-14 md:w-2/3 md:justify-center md:items-center">{newUser ? <Login /> : <Register /> }</Box>
 
       <Box 
-        className="flex flex-col bg-blue-600 justify-center items-center w-1/3"
+        className="flex flex-col h-screen pt-14 mb-0 bg-sky-600 md:justify-center md:items-center md:w-1/3"
         >
-        <Typography variant='h4' className='text-white '>{newUser ? "New Here?" : "Already have an Account?"}</Typography>
-        <Typography className='text-slate-300 m-4'>{newUser ? "Create an account to find your dream job!" : "Login to your account"}</Typography>
+        <Typography variant='h4' className='text-white mx-auto text-2xl'>{newUser ? "New Here?" : "Already have an Account?"}</Typography>
+        <Typography className='text-slate-300 text-sm mx-auto my-4 md:m-4'>{newUser ? "Create an account to find your dream job!" : "Login to your account"}</Typography>
 
         <Button 
             variant="contained" 
             onClick={handleSetNewUser}
-            className='w-2/4 self-center rounded-lg shadow-none text-gray-800 font-bold bg-white hover:bg-slate-200 hover:shadow-none'
+            className='w-2/4 self-center rounded-lg 
+                        shadow-none text-gray-800 font-bold bg-white
+                         hover:bg-orange-200 hover:shadow-none mt-4'
         >
             {newUser ? " Create Account" : "Sign In"}
         </Button>
