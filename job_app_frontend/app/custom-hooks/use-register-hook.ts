@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { useRegisterMutation } from "../actions/mutations/use-register-mutate";
-import { Role, UserRegister } from "../types";
+import { useRegisterMutation } from "../api/mutations/use-register-mutate";
 import { EMAIL_REGEX, EMAIL_TEXT_MESSAGE, PASSWORD_REGEX, PASSWORD_TEXT_MESSAGE } from "../constant";
+import { Role, UserRegister } from "../types";
+
 
 export const UseRegisterHook = () => {
     const [userData, setUserData] = useState<UserRegister>({

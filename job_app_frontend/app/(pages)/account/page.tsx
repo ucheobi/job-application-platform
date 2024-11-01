@@ -1,7 +1,7 @@
 "use client"
 
-import Login from '@/app/components/Login';
-import Register from '@/app/components/Register';
+import Login from '@/app/components/user/Login';
+import Register from '@/app/components/user/Register';
 import { UseRegisterHook } from '@/app/custom-hooks/use-register-hook';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';

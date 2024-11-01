@@ -1,7 +1,8 @@
 
-import { useMutation } from "@tanstack/react-query";
-import { UserLogin } from "../../types";
 import axiosInstance from "@/app/config/axios";
+import { UserLogin } from "@/app/types";
+import { useMutation } from "@tanstack/react-query";
+
 
 const signInUser = async (loginData: UserLogin) => {
     const userData = new FormData();
@@ -14,14 +15,13 @@ const signInUser = async (loginData: UserLogin) => {
         }
     })
 
-    console.log(response.data)
-
     return response.data
 }
 
 
 export const useSignInMutate = () => {
     const {isPending, isSuccess, error, data, mutate } = useMutation({
+        mutationKey: ["signin"],
         mutationFn: signInUser
     })
 

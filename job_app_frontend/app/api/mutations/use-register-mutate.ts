@@ -9,8 +9,6 @@ const registerUser = async (userData: UserRegister) => {
         throw new Error("Error creating account!")
     }
 
-    console.log(response.data)
-
     return response.data;
 }
 

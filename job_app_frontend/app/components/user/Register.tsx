@@ -7,8 +7,8 @@ import MenuItem from '@mui/material/MenuItem'
 import Select from '@mui/material/Select'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
-import { UseRegisterHook } from '../custom-hooks/use-register-hook'
-import { Role } from '../types'
+import { UseRegisterHook } from '../../custom-hooks/use-register-hook'
+import { Role } from '../../types'
 
 
 const Register = () => {
