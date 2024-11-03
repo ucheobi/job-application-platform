@@ -562,7 +562,7 @@
     prop-types "^15.8.1"
     react-is "^18.3.1"
 
-"@mui/utils@^6.1.4", "@mui/utils@^6.1.6":
+"@mui/utils@^5.16.6 || ^6.0.0", "@mui/utils@^6.1.4", "@mui/utils@^6.1.6":
   version "6.1.6"
   resolved "https://registry.yarnpkg.com/@mui/utils/-/utils-6.1.6.tgz#4b9fd34da3a1dd4700fe506a20ca7da3933ba48e"
   integrity sha512-sBS6D9mJECtELASLM+18WUcXF6RH3zNxBRFeyCRg8wad6NbyNrdxLuwK+Ikvc38sTZwBzAz691HmSofLqHd9sQ==
@@ -573,6 +573,27 @@
     clsx "^2.1.1"
     prop-types "^15.8.1"
     react-is "^18.3.1"
+
+"@mui/x-date-pickers@^7.22.1":
+  version "7.22.1"
+  resolved "https://registry.yarnpkg.com/@mui/x-date-pickers/-/x-date-pickers-7.22.1.tgz#3abe7ad0b5816051fdcef4ffbe5343965e7dfc8e"
+  integrity sha512-VBgicE+7PvJrdHSL6HyieHT6a/0dENH8RaMIM2VwUFrGoZzvik50WNwY5U+Hip1BwZLIEvlqtNRQIIj6kgBR6Q==
+  dependencies:
+    "@babel/runtime" "^7.25.7"
+    "@mui/utils" "^5.16.6 || ^6.0.0"
+    "@mui/x-internals" "7.21.0"
+    "@types/react-transition-group" "^4.4.11"
+    clsx "^2.1.1"
+    prop-types "^15.8.1"
+    react-transition-group "^4.4.5"
+
+"@mui/x-internals@7.21.0":
+  version "7.21.0"
+  resolved "https://registry.yarnpkg.com/@mui/x-internals/-/x-internals-7.21.0.tgz#daca984059015b27efdb47bb44dc7ff4a6816673"
+  integrity sha512-94YNyZ0BhK5Z+Tkr90RKf47IVCW8R/1MvdUhh6MCQg6sZa74jsX+x+gEZ4kzuCqOsuyTyxikeQ8vVuCIQiP7UQ==
+  dependencies:
+    "@babel/runtime" "^7.25.7"
+    "@mui/utils" "^5.16.6 || ^6.0.0"
 
 "@next/env@14.2.16":
   version "14.2.16"
@@ -3034,6 +3055,16 @@ react-dom@^18:
   dependencies:
     loose-envify "^1.1.0"
     scheduler "^0.23.2"
+
+react-hook-form-mui@^7.4.0:
+  version "7.4.0"
+  resolved "https://registry.yarnpkg.com/react-hook-form-mui/-/react-hook-form-mui-7.4.0.tgz#c64b58957836a59e6cd48e928d84afa583d8c669"
+  integrity sha512-etciyU/ZfFp1io8NUi7gxx5Eyx7q6aRdccxuqQKKo6zKo69lEj9Fy+gr6Ft6D9miIqq1VyiHy3wZoaoTcLwauA==
+
+react-hook-form@^7.53.1:
+  version "7.53.1"
+  resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.53.1.tgz#3f2cd1ed2b3af99416a4ac674da2d526625add67"
+  integrity sha512-6aiQeBda4zjcuaugWvim9WsGqisoUk+etmFEsSUMm451/Ic8L/UAb7sRtMj3V+Hdzm6mMjU1VhiSzYUZeBm0Vg==
 
 react-is@18.3.1, react-is@^18.3.1:
   version "18.3.1"

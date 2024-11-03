@@ -1,5 +1,6 @@
 "use client"
 
+import React from 'react';
 import DashboardIcon from '@mui/icons-material/Dashboard'
 import HomeIcon from '@mui/icons-material/Home'
 import WorkHistoryIcon from '@mui/icons-material/WorkHistory'
@@ -7,10 +8,43 @@ import Person2Icon from '@mui/icons-material/Person2'
 import { createTheme } from '@mui/material'
 import { AppProvider } from "@toolpad/core/AppProvider"
 import { DashboardLayout } from '@toolpad/core/DashboardLayout'
-import React from 'react';
+
 
 const theme = createTheme({
   colorSchemes: { light: true, dark: true },
+  palette: {
+    primary: {
+      main: "#DC143C"
+    },
+  },
+  components: {
+    MuiDrawer: {
+      styleOverrides: {
+        paper: {
+          backgroundColor: "#404040"
+        }
+      }
+    },
+    MuiListItemText: {
+      styleOverrides: {
+        primary: {
+          color: "#ffffff",
+        }
+      }
+    },
+    MuiList: {
+      styleOverrides: {
+      
+      }
+    },
+    MuiListItem: {
+      styleOverrides: {
+        root: {
+          marginBottom: "0.6rem",
+        }
+      }
+    }
+  },
   breakpoints: {
     values: {
       xs: 0,
@@ -19,7 +53,7 @@ const theme = createTheme({
       lg: 1200,
       xl: 1536,
     },
-  },
+  }
 });
 
 export default function Dashboard({ children }: {
@@ -50,14 +84,14 @@ export default function Dashboard({ children }: {
           icon: <WorkHistoryIcon />
         },
         {
-          segment: "my-profile",
+          segment: "dashboard/applicant",
           title: "My Profile",
           icon: <Person2Icon />
         }
       ]}
       theme={theme}
       branding={{
-        title: "Job Query"
+        title: "Job Query Platform",
       }}
     >
       <DashboardLayout>
