@@ -1,3 +1,0 @@
-[submodule "job_app_backend"]
-	path = job_app_backend
-	url = https://github.com/ucheobi/job_app_server
