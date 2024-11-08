@@ -36,7 +36,7 @@ type WorkExperience = {
 export type JobProfile = {
     title: string,
     current_location: string,
-    resume_url: string,
+    resume_url?: string,
     portfolio_url: string,
     skills: string[],
     education: Education[],
