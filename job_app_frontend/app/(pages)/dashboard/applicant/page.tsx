@@ -1,7 +1,6 @@
 import ApplicantProfile from "@/app/components/job-seeker/ApplicantProfile"
 import Typography from "@mui/material/Typography"
 import Stack from "@mui/material/Stack"
-///import { Typography } from "@mui/material"
 
   
  const page = () => {

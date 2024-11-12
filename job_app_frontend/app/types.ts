@@ -1,20 +1,29 @@
-export enum Role {
-    APPLICANT = "applicant",
-    EMPLOYER = "employer"
-}
+import { Control, FieldErrors, UseFormHandleSubmit, UseFormRegister } from "react-hook-form-mui";
+
+// export enum Role {
+//     APPLICANT = "applicant",
+//     EMPLOYER = "employer"
+// }
+
+export const roles = [
+    { value: "applicant", label: "Applicant"},
+    { value: "employer", label: "Employer"}
+] as const;
+
+export type Role = typeof roles[number]["value"]
 
 export type UserBase = {
     email: string;
     password: string;
 }
 
-export type UserRegister =  UserBase & {
+export type UserRegisterType =  UserBase & {
     first_name: string;
     last_name: string;
-    role: Role
+    role: Role;
 }
 
-export type UserLogin = {
+export type UserLoginType = {
     username: string;
     password: string
 }
@@ -33,7 +42,7 @@ type WorkExperience = {
     description: string
 }
 
-export type JobProfile = {
+export type JobProfileType = {
     title: string,
     current_location: string,
     resume_url?: string,
@@ -41,4 +50,37 @@ export type JobProfile = {
     skills: string[],
     education: Education[],
     work_experience: WorkExperience[]
+}
+
+export type LoginProps = {
+    showPassword: boolean,
+    registerLoginUser: UseFormRegister<UserLoginType>;
+    loginError?: string | null,
+    handleLoginUser: UseFormHandleSubmit<UserLoginType, undefined>
+    handleLoginSubmit: (loginData: UserLoginType, event?: React.BaseSyntheticEvent) => void
+    loginStateError: FieldErrors<UserLoginType>,
+    handlePasswordVisibility: () => void,
+    handleMouseDownPassword: (event: React.MouseEvent<HTMLButtonElement>) => void,
+    handleMouseUpPassword: (event: React.MouseEvent<HTMLButtonElement>) => void
+}
+
+export type RegisterProps = {
+    control?: Control<UserRegisterType, any>
+    showPassword: boolean,
+    registerMutateError?: string | null,
+    registerNewUser: UseFormRegister<UserRegisterType>,
+    registerFormStateError: FieldErrors<UserRegisterType>,
+    handleRegisterUser: UseFormHandleSubmit<UserRegisterType, undefined>,
+    handleRegisterSubmit: (userData: UserRegisterType, event?: React.BaseSyntheticEvent) => void
+    handlePasswordVisibility: () => void,
+    handleMouseDownPassword: (event: React.MouseEvent<HTMLButtonElement>) => void,
+    handleMouseUpPassword: (event: React.MouseEvent<HTMLButtonElement>) => void
+}
+
+export interface ErrorResponse {
+    response?: {
+        data?: {
+            detail?: string | null
+        }
+    }
 }

@@ -14,7 +14,7 @@ const theme = createTheme({
   colorSchemes: { light: true, dark: true },
   palette: {
     primary: {
-      main: "#DC143C"
+      main: "#800000"
     },
   },
   components: {
@@ -34,7 +34,7 @@ const theme = createTheme({
     },
     MuiList: {
       styleOverrides: {
-      
+        
       }
     },
     MuiListItem: {

@@ -1,7 +1,7 @@
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form-mui";
-import { JobProfile } from "../types";
+import { JobProfileType } from "../types";
 import { useState } from "react";
-import { useSubmitApplicantProfile } from "../api/mutations/use-submit-applicant-profile-mutate";
+import { applicantProfileMutation } from "../api/mutations/applicant-profile-mutation";
 import { SelectChangeEvent } from "@mui/material";
 
 export const skillsArray = [
@@ -20,14 +20,14 @@ export const skillsArray = [
   "MySQL"
 ]
 
-export const UseCreateJobProfile = () => {
+export const createProfileHandlerHook = () => {
   const [skillSet, setSkillSet] = useState<string[]>([]);
   const [resumeFile, setResumeFile] = useState<File | null>(null)
   const {
     handleSubmit,
     register,
     control
-  } = useForm<JobProfile>({
+  } = useForm<JobProfileType>({
     defaultValues: {
       title: "",
       current_location: "",
@@ -48,20 +48,20 @@ export const UseCreateJobProfile = () => {
     }
   });
 
-  const {fields: workFields} = useFieldArray<JobProfile>({
+  const {fields: workFields} = useFieldArray<JobProfileType>({
     control,
     name: "work_experience"
   })
 
-  const {fields: educationFields} = useFieldArray<JobProfile>({
+  const {fields: educationFields} = useFieldArray<JobProfileType>({
     control,
     name: "education"
   })
 
-  const { createJobProfileMutate } = useSubmitApplicantProfile()
+  const { createJobProfileMutate } = applicantProfileMutation()
   
 
-  const onSubmit: SubmitHandler<JobProfile> = (applicantData: JobProfile, event?: React.BaseSyntheticEvent) => {
+  const onSubmit: SubmitHandler<JobProfileType> = (applicantData: JobProfileType, event?: React.BaseSyntheticEvent) => {
     event?.preventDefault()
     
     if (resumeFile) {

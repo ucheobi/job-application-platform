@@ -1,8 +1,8 @@
 import axiosInstance from "@/app/config/axios"
-import { JobProfile } from "@/app/types"
+import { JobProfileType } from "@/app/types"
 import { useMutation } from "@tanstack/react-query"
 
-const createJobProfileFetch = async ({applicantData, resumeFile }: { applicantData: JobProfile, resumeFile: File }) => {
+const createJobProfileFetch = async ({applicantData, resumeFile }: { applicantData: JobProfileType, resumeFile: File }) => {
     const formData = new FormData()
 
     formData.append("applicantData", JSON.stringify(applicantData))
@@ -22,7 +22,7 @@ const createJobProfileFetch = async ({applicantData, resumeFile }: { applicantDa
 }
 
 
-export const useSubmitApplicantProfile = () => {
+export const applicantProfileMutation = () => {
     const { mutate, status, error, isPending, isSuccess, data} = useMutation({
         mutationKey: ['job-profile'],
         mutationFn: createJobProfileFetch

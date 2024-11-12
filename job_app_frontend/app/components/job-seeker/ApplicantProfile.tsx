@@ -16,7 +16,7 @@ import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import { Theme, useTheme, styled } from "@mui/material/styles";
 
-import { skillsArray, UseCreateJobProfile } from "@/app/custom-hooks/use-create-job-profile-hook";
+import { skillsArray, createProfileHandlerHook } from "@/app/custom-hooks/create-profile-handler-hook";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -65,7 +65,7 @@ const NewJobProfile = () => {
     onSubmit, 
     workFields, 
     educationFields 
-  } = UseCreateJobProfile()
+  } = createProfileHandlerHook()
   
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
