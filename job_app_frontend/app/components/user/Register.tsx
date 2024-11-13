@@ -13,6 +13,8 @@ import IconButton from '@mui/material/IconButton'
 import InputAdornment from '@mui/material/InputAdornment'
 import OutlinedInput from '@mui/material/OutlinedInput'
 import { Controller } from 'react-hook-form-mui'
+import Alert from '@mui/material/Alert';
+
 
 
 const Register = ({
@@ -130,9 +132,7 @@ const Register = ({
                     
                 </FormControl>
                 {registerMutateError && (
-                    <Typography color='error' className='mt-4 text-center text-sm'>
-                        {registerMutateError}
-                    </Typography>
+                    <Alert severity="error" className="mt-4 mx-auto text-center text-xs justify-center w-1/2">{registerMutateError}</Alert>
                 )}  
                 <Button 
                     variant="contained" 

@@ -2,6 +2,7 @@
 import { LoginProps } from '@/app/types'
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
+import Alert from '@mui/material/Alert'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import FormControl from '@mui/material/FormControl'
@@ -76,7 +77,7 @@ const Login = ({
 
                     {loginError && (
                         <Typography color='error' className='mt-4'>
-                            {loginError}
+                            <Alert severity="error" className="mt-4 mx-auto text-center text-xs justify-center w-1/2">{loginError}</Alert>
                         </Typography>
                     )}
                 
