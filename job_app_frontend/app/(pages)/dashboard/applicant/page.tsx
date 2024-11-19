@@ -1,13 +1,13 @@
-import ApplicantProfile from "@/app/components/job-seeker/ApplicantProfile"
-import Typography from "@mui/material/Typography"
+"use client"
+
 import Stack from "@mui/material/Stack"
+import JobPanelTab from "@/app/components/job-seeker/JobPanelTab"
 
   
  const page = () => {
    return (
     <Stack className="py-4 px-10">
-      <Typography className="text-2xl font-extrabold my-4">Job Profile</Typography>
-      <ApplicantProfile />
+      <JobPanelTab />
     </Stack>
    )
  }

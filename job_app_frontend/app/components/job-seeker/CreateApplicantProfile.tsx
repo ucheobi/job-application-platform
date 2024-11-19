@@ -1,5 +1,3 @@
-"use client"
-
 import React from "react"
 import AddIcon from '@mui/icons-material/Add';
 import Box from "@mui/material/Box";
@@ -53,7 +51,7 @@ const CustomInputField = styled(Input)({
   },
 })
 
-const NewJobProfile = () => {
+const CreateApplicantProfile = () => {
   const theme = useTheme();
 
   const {
@@ -246,4 +244,4 @@ const NewJobProfile = () => {
   )
 }
 
-export default NewJobProfile;
+export default CreateApplicantProfile;
