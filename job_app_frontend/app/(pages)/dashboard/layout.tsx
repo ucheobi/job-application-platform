@@ -1,14 +1,21 @@
 "use client"
 
-import React from 'react';
+import React, { useContext, useEffect, useState, useMemo } from 'react';
 import DashboardIcon from '@mui/icons-material/Dashboard'
 import HomeIcon from '@mui/icons-material/Home'
 import WorkHistoryIcon from '@mui/icons-material/WorkHistory'
 import Person2Icon from '@mui/icons-material/Person2'
 import { createTheme } from '@mui/material'
-import { AppProvider } from "@toolpad/core/AppProvider"
+import Box from '@mui/material/Box'
+import CircularProgress from '@mui/material/CircularProgress'
+import { AppProvider } from "@toolpad/core/nextjs"
 import { DashboardLayout } from '@toolpad/core/DashboardLayout'
-
+import { useRouter } from 'next/navigation';
+import { useAuth } from '../layout';
+import { UserResponseType } from '@/app/types';
+import { AuthenticationContext, Session, SessionContext } from '@toolpad/core/AppProvider';
+import JobLogo from '@/app/components/JobLogo';
+import { getStoredUser } from '@/app/helper';
 
 const theme = createTheme({
   colorSchemes: { light: true, dark: true },
@@ -59,8 +66,52 @@ const theme = createTheme({
 export default function Dashboard({ children }: {
   children: React.ReactNode
 }) {
+  const [userSession, setUserSession] = useState<Session | null>(null);
+  const authentication = useMemo(() => {
+    return {
+      signIn: () => {
+        const userData = getStoredUser();
 
-    return (
+        if (userData) {
+          setUserSession(userData)
+        }
+      },
+      signOut: () => {
+        sessionStorage.clear()
+        setUserSession(null);
+        router.push("/account/auth")
+      },
+    };
+  }, []);
+
+  const router = useRouter()
+
+  useEffect(() => {
+    const userObject = getStoredUser();
+
+    if (userObject) {
+      setUserSession(userObject)
+    }
+
+    const token = sessionStorage.getItem("token")
+
+    if (!token) {
+      router.push("/account/auth")
+    }
+  }, [router])
+  
+ 
+  //const { isAuthenticated } = useAuth()
+
+  // if (!isAuthenticated) {
+  //   return (
+  //     <Box className='flex justify-center mt-10'>
+  //       <CircularProgress size="10rem" />
+  //     </Box>
+  //   )
+  // }
+
+  return (
     <AppProvider
       navigation={[
         {
@@ -92,11 +143,16 @@ export default function Dashboard({ children }: {
       theme={theme}
       branding={{
         title: "Job Query Platform",
+        logo: <JobLogo />
       }}
     >
-      <DashboardLayout>
-       {children}
-      </DashboardLayout>
-  </AppProvider>
+      <AuthenticationContext.Provider value={authentication}>
+        <SessionContext.Provider value={userSession}>
+          <DashboardLayout>
+            {children}
+          </DashboardLayout>
+        </SessionContext.Provider>
+      </AuthenticationContext.Provider>
+    </AppProvider>
   )
 }

@@ -1,3 +1,4 @@
+import { Session } from "@toolpad/core/AppProvider";
 import { Control, FieldErrors, UseFormHandleSubmit, UseFormRegister } from "react-hook-form-mui";
 
 // export enum Role {
@@ -17,10 +18,17 @@ export type UserBase = {
     password: string;
 }
 
-export type UserRegisterType =  UserBase & {
+export type UserDetailsType = {
     first_name: string;
     last_name: string;
     role: Role;
+}
+
+export type UserRegisterType =  UserBase & UserDetailsType
+
+export interface UserResponseType extends UserDetailsType {
+    id: number;
+    email: string;
 }
 
 export type UserLoginType = {
@@ -84,3 +92,8 @@ export interface ErrorResponse {
         }
     }
 }
+
+export interface AuthContextType {
+    isAuthenticated: boolean;
+    handleAuthetication: (token: string) => void
+} 
