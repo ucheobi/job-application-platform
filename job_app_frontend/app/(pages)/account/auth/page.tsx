@@ -2,8 +2,8 @@
 
 import Login from '@/app/components/user/Login';
 import Register from '@/app/components/user/Register';
-import { loginHandlerHook } from '@/app/custom-hooks/login-handler-hook';
-import { registerHandlerHook } from '@/app/custom-hooks/register-handler-hook';
+import { useLoginHandler } from '@/app/custom-hooks/use-login-handler';
+import { useRegisterHandler } from '@/app/custom-hooks/use-register-handler';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
@@ -20,7 +20,7 @@ const Account = () => {
     loginStateError,
     registerLoginUser,
     loginError,
-  } = loginHandlerHook();
+  } = useLoginHandler();
 
   const {  
     registerFormStateError,
@@ -30,7 +30,7 @@ const Account = () => {
     registerMutateError,
     control
   } 
-  = registerHandlerHook();
+  = useRegisterHandler();
 
   const handleSetNewUser = () => {
     setNewUser(!newUser)

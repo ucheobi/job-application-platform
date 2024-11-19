@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useContext, useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import DashboardIcon from '@mui/icons-material/Dashboard'
 import HomeIcon from '@mui/icons-material/Home'
 import WorkHistoryIcon from '@mui/icons-material/WorkHistory'
@@ -11,11 +11,11 @@ import CircularProgress from '@mui/material/CircularProgress'
 import { AppProvider } from "@toolpad/core/nextjs"
 import { DashboardLayout } from '@toolpad/core/DashboardLayout'
 import { useRouter } from 'next/navigation';
-import { useAuth } from '../layout';
-import { UserResponseType } from '@/app/types';
 import { AuthenticationContext, Session, SessionContext } from '@toolpad/core/AppProvider';
 import JobLogo from '@/app/components/JobLogo';
-import { getStoredUser } from '@/app/helper';
+import { getCurrentUser } from '@/app/utils/get-current-user';
+import { useAuth } from '../layout';
+
 
 const theme = createTheme({
   colorSchemes: { light: true, dark: true },
@@ -69,12 +69,7 @@ export default function Dashboard({ children }: {
   const [userSession, setUserSession] = useState<Session | null>(null);
   const authentication = useMemo(() => {
     return {
-      signIn: () => {
-        const userData = getStoredUser();
-
-        if (userData) {
-          setUserSession(userData)
-        }
+      signIn: () => { // handled in useEffect
       },
       signOut: () => {
         sessionStorage.clear()
@@ -87,29 +82,28 @@ export default function Dashboard({ children }: {
   const router = useRouter()
 
   useEffect(() => {
-    const userObject = getStoredUser();
+    const userObject = getCurrentUser();
 
     if (userObject) {
       setUserSession(userObject)
     }
 
-    const token = sessionStorage.getItem("token")
 
-    if (!token) {
+    if (!userObject) {
       router.push("/account/auth")
     }
   }, [router])
   
  
-  //const { isAuthenticated } = useAuth()
+  const { isAuthenticated } = useAuth()
 
-  // if (!isAuthenticated) {
-  //   return (
-  //     <Box className='flex justify-center mt-10'>
-  //       <CircularProgress size="10rem" />
-  //     </Box>
-  //   )
-  // }
+  if (!isAuthenticated) {
+    return (
+      <Box className='flex justify-center mt-10'>
+        <CircularProgress size="10rem" />
+      </Box>
+    )
+  }
 
   return (
     <AppProvider

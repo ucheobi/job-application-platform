@@ -2,7 +2,7 @@ import { signInMutation } from "../api/mutations/signin-mutation";
 import { UserLoginType } from "../types";
 import { SubmitHandler, useForm } from "react-hook-form-mui";
 
-export const loginHandlerHook = () => {
+export const useLoginHandler = () => {
     const { register, handleSubmit, formState: { errors } } = useForm<UserLoginType>({
         defaultValues: {
             username: "",

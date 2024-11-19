@@ -76,9 +76,9 @@ const Login = ({
                     />
 
                     {loginError && (
-                        <Typography color='error' className='mt-4'>
+                        <Box color='error' className='mt-4'>
                             <Alert severity="error" className="mt-4 mx-auto text-center text-xs justify-center w-1/2">{loginError}</Alert>
-                        </Typography>
+                        </Box>
                     )}
                 
                 </FormControl>

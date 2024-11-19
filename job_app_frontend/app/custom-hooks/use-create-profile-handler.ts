@@ -20,7 +20,7 @@ export const skillsArray = [
   "MySQL"
 ]
 
-export const createProfileHandlerHook = () => {
+export const useCreateProfileHandler = () => {
   const [skillSet, setSkillSet] = useState<string[]>([]);
   const [resumeFile, setResumeFile] = useState<File | null>(null)
   const {

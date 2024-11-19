@@ -3,7 +3,7 @@ import { Role, UserRegisterType } from "../types";
 import { useForm, SubmitHandler } from "react-hook-form-mui";
 
 
-export const registerHandlerHook = () => {
+export const useRegisterHandler = () => {
     const { register, handleSubmit, control, formState: { errors }} = useForm<UserRegisterType>({
         defaultValues: {
             first_name: "",

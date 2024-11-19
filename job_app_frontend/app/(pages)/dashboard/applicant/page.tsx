@@ -9,7 +9,6 @@ import Stack from "@mui/material/Stack"
       <Typography className="text-2xl font-extrabold my-4">Job Profile</Typography>
       <ApplicantProfile />
     </Stack>
-    
    )
  }
  

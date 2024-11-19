@@ -1,3 +1,4 @@
+import { useAuth } from "@/app/(pages)/layout"
 import axiosInstance from "@/app/config/axios"
 import { ErrorResponse, UserRegisterType } from "@/app/types"
 import { useMutation } from "@tanstack/react-query"
@@ -13,17 +14,15 @@ const createUser = async (userData: UserRegisterType) => {
     return response.data;
 }
 
-
 export const createAccountMutation = () => {
-    const router = useRouter()
+    const { handleAuthetication } = useAuth()
     const { mutate, status, error, isPending, isSuccess, data} = useMutation({
         mutationKey: ['register'],
         mutationFn: createUser,
         onSuccess: (data) => {
             const token = data.access_token
-            sessionStorage.setItem("token", token)
 
-            router.push("/dashboard/applicant")
+            handleAuthetication(token)
         },
         onError: (error) => {
             console.error("Login failed", error)
