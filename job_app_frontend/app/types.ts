@@ -1,3 +1,4 @@
+import { Session } from "@toolpad/core/AppProvider";
 import { Control, FieldErrors, UseFormHandleSubmit, UseFormRegister } from "react-hook-form-mui";
 
 // export enum Role {
@@ -31,6 +32,17 @@ export interface UserResponseType extends UserDetailsType {
     exp?: number;
 }
 
+export interface UserSession {
+    user?: {
+        id?: string | null;
+        name?: string | null;
+        image?: string | null;
+        email?: string;
+        first_name?: string;
+        last_name?: string;
+    }
+}
+
 export type UserLoginType = {
     username: string;
     password: string
@@ -51,13 +63,20 @@ type WorkExperience = {
 }
 
 export type JobProfileType = {
-    title: string,
-    current_location: string,
+    title?: string,
+    current_location?: string,
     resume_url?: string,
-    portfolio_url: string,
-    skills: string[],
-    education: Education[],
-    work_experience: WorkExperience[]
+    portfolio_url?: string,
+    skills?: string[],
+    education?: Education[],
+    work_experience?: WorkExperience[]
+}
+
+export type JobProfileDetails = JobProfileType & {
+    email?: string;
+    first_name?: string;
+    last_name?: string;
+    handleProfileEdit: () => void
 }
 
 export type LoginProps = {
