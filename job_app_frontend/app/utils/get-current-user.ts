@@ -1,7 +1,5 @@
-import { Session } from "@toolpad/core/AppProvider";
-import { UserResponseType } from "../types";
+import { UserResponseType, UserSession } from "../types";
 import { jwtDecode } from "jwt-decode"
-
 
 export const getCurrentUser = () => {
     if (typeof window !== "undefined") {
@@ -16,9 +14,11 @@ export const getCurrentUser = () => {
 
       const { first_name, last_name, id, email } = currentUser
       
-      const userDetails: Session = {
+      const userDetails: UserSession = {
         user: {
           name: first_name + " " + last_name,
+          first_name,
+          last_name,
           id: JSON.stringify(id),
           email,
           image: 'https://avatars.githubusercontent.com/u/19550456'
@@ -26,7 +26,6 @@ export const getCurrentUser = () => {
       }
        
       return userDetails
-    
     }
   
     return null

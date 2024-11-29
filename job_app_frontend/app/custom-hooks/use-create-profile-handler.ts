@@ -1,7 +1,7 @@
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form-mui";
 import { JobProfileType } from "../types";
-import { useState } from "react";
-import { applicantProfileMutation } from "../api/mutations/applicant-profile-mutation";
+import { useEffect, useState } from "react";
+import { useApplicantProfileMutation } from "../api/mutations/use-applicant-profile-mutation";
 import { SelectChangeEvent } from "@mui/material";
 
 export const skillsArray = [
@@ -20,13 +20,15 @@ export const skillsArray = [
   "MySQL"
 ]
 
-export const useCreateProfileHandler = () => {
+export const useCreateProfileHandler = ( profileData: JobProfileType | undefined ) => {
   const [skillSet, setSkillSet] = useState<string[]>([]);
   const [resumeFile, setResumeFile] = useState<File | null>(null)
+  
   const {
     handleSubmit,
     register,
-    control
+    control,
+    reset
   } = useForm<JobProfileType>({
     defaultValues: {
       title: "",
@@ -48,17 +50,27 @@ export const useCreateProfileHandler = () => {
     }
   });
 
-  const {fields: workFields} = useFieldArray<JobProfileType>({
+
+  useEffect(() => {
+    if (profileData) {
+      reset({
+        ...profileData,
+       work_experience: profileData.work_experience || [],
+      })
+    }
+  }, [profileData, reset])
+
+  const {fields: workFields, append: appendWorkExperience} = useFieldArray<JobProfileType>({
     control,
     name: "work_experience"
   })
 
-  const {fields: educationFields} = useFieldArray<JobProfileType>({
+  const {fields: educationFields, append: appendEducation} = useFieldArray<JobProfileType>({
     control,
     name: "education"
   })
 
-  const { createJobProfileMutate } = applicantProfileMutation()
+  const { createJobProfileMutate } = useApplicantProfileMutation()
   
 
   const onSubmit: SubmitHandler<JobProfileType> = (applicantData: JobProfileType, event?: React.BaseSyntheticEvent) => {
@@ -87,6 +99,14 @@ export const useCreateProfileHandler = () => {
     );
   };
 
+  const handleAddEducation = () => {
+    appendEducation({institution: "", degree: "", graduation_year: 2000})
+  }
+
+  const handleAddWorkExperience = () => {
+    appendWorkExperience({company: "", title: "", start_date: "01.06.2000", end_date: "", description: ""})
+  }
+
   return {
     skillSet,
     handleSubmit,
@@ -96,6 +116,7 @@ export const useCreateProfileHandler = () => {
     onSubmit,
     handleSkillChange,
     handleFileChange,
+    handleAddEducation,
+    handleAddWorkExperience
   }
-
 }

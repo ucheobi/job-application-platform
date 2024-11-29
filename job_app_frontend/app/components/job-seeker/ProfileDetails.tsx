@@ -11,7 +11,6 @@ const ProfileDetails = ({
     skills,
     work_experience,
     education,
-    resume_url,
     first_name,
     last_name,
     email,

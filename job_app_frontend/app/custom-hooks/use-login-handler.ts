@@ -1,4 +1,4 @@
-import { signInMutation } from "../api/mutations/signin-mutation";
+import { useSignInMutation } from "../api/mutations/use-signin-mutation";
 import { UserLoginType } from "../types";
 import { SubmitHandler, useForm } from "react-hook-form-mui";
 
@@ -11,7 +11,7 @@ export const useLoginHandler = () => {
         mode: "onBlur"
     })
 
-    const { loginMutate, loginError } = signInMutation()
+    const { loginMutate, loginError } = useSignInMutation()
 
     const handleLoginSubmit: SubmitHandler<UserLoginType> = (loginData: UserLoginType, event?: React.BaseSyntheticEvent) => {
        event?.preventDefault()

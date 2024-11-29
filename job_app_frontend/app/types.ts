@@ -1,10 +1,4 @@
-import { Session } from "@toolpad/core/AppProvider";
 import { Control, FieldErrors, UseFormHandleSubmit, UseFormRegister } from "react-hook-form-mui";
-
-// export enum Role {
-//     APPLICANT = "applicant",
-//     EMPLOYER = "employer"
-// }
 
 export const roles = [
     { value: "applicant", label: "Applicant"},
@@ -48,7 +42,7 @@ export type UserLoginType = {
     password: string
 }
 
-type Education = {
+export type Education = {
     institution: string,
     degree: string,
     graduation_year: number
@@ -92,7 +86,7 @@ export type LoginProps = {
 }
 
 export type RegisterProps = {
-    control?: Control<UserRegisterType, any>
+    control?: Control<UserRegisterType>
     showPassword: boolean,
     registerMutateError?: string | null,
     registerNewUser: UseFormRegister<UserRegisterType>,

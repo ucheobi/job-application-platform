@@ -9,12 +9,14 @@ import { createTheme } from '@mui/material'
 import Box from '@mui/material/Box'
 import CircularProgress from '@mui/material/CircularProgress'
 import { AppProvider } from "@toolpad/core/nextjs"
-import { DashboardLayout } from '@toolpad/core/DashboardLayout'
+import { DashboardLayout as MuiDashboardLayout } from '@toolpad/core/DashboardLayout'
 import { useRouter } from 'next/navigation';
-import { AuthenticationContext, Session, SessionContext } from '@toolpad/core/AppProvider';
+import { AuthenticationContext, SessionContext } from '@toolpad/core/AppProvider';
 import JobLogo from '@/app/components/JobLogo';
 import { getCurrentUser } from '@/app/utils/get-current-user';
 import { useAuth } from '../layout';
+import { useQueryClient } from '@tanstack/react-query';
+import { UserSession } from '@/app/types';
 
 
 const theme = createTheme({
@@ -63,33 +65,35 @@ const theme = createTheme({
   }
 });
 
-export default function Dashboard({ children }: {
+export default function DashboardLayout({ children }: {
   children: React.ReactNode
 }) {
-  const [userSession, setUserSession] = useState<Session | null>(null);
+
+  const query = useQueryClient()
+  const router = useRouter()
+
+  const [userSession, setUserSession] = useState<UserSession | null>(null);
   const authentication = useMemo(() => {
     return {
       signIn: () => { // handled in useEffect
       },
       signOut: () => {
+        query.clear()
         sessionStorage.clear()
         setUserSession(null);
         router.push("/account/auth")
       },
     };
-  }, []);
+  }, [query, router]);
 
-  const router = useRouter()
+  const currentUser = getCurrentUser();
 
   useEffect(() => {
-    const userObject = getCurrentUser();
-
-    if (userObject) {
-      setUserSession(userObject)
+    if (currentUser) {
+      setUserSession(currentUser)
     }
 
-
-    if (!userObject) {
+    if (!currentUser) {
       router.push("/account/auth")
     }
   }, [router])
@@ -142,9 +146,9 @@ export default function Dashboard({ children }: {
     >
       <AuthenticationContext.Provider value={authentication}>
         <SessionContext.Provider value={userSession}>
-          <DashboardLayout>
+          <MuiDashboardLayout>
             {children}
-          </DashboardLayout>
+          </MuiDashboardLayout>
         </SessionContext.Provider>
       </AuthenticationContext.Provider>
     </AppProvider>

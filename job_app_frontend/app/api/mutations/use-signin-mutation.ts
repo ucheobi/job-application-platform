@@ -18,10 +18,9 @@ const signInUser = async (loginData: UserLoginType) => {
     return response.data
 }
 
-export const signInMutation = () => {
+export const useSignInMutation = () => {
     const { handleAuthetication } = useAuth()
     
-
     const {isPending, isSuccess, error, data, mutate} = useMutation({
         mutationKey: ["signin"],
         mutationFn: signInUser,
@@ -32,7 +31,7 @@ export const signInMutation = () => {
         },
         onError: (error) => {
             console.error("Login failed", error)
-        }
+        },
     })
 
     const errorMessage = error as ErrorResponse

@@ -9,16 +9,15 @@ const fetchProfile = async () => {
 
         return response.data;
     } catch(error) {
-        throw new Error("User does not have a profile details")
+        throw new Error(`User does not have a profile details: ${error}`)
     }   
 }
 
 
-export const fetchApplicantProfile = () => {
+export const useFetchApplicantProfile = () => {
     const { isPending, data, error, status, refetch } = useQuery<JobProfileType>({
         queryKey: ["profile"],
         queryFn: fetchProfile,  
-        //enabled: false,
         refetchOnMount: true,
         refetchOnReconnect: true,
         refetchOnWindowFocus: true

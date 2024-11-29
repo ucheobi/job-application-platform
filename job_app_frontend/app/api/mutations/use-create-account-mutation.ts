@@ -2,7 +2,7 @@ import { useAuth } from "@/app/(pages)/layout"
 import axiosInstance from "@/app/config/axios"
 import { ErrorResponse, UserRegisterType } from "@/app/types"
 import { useMutation } from "@tanstack/react-query"
-import { useRouter } from "next/navigation"
+
 
 const createUser = async (userData: UserRegisterType) => {
     const response = await axiosInstance.post("/users", userData)
@@ -14,7 +14,7 @@ const createUser = async (userData: UserRegisterType) => {
     return response.data;
 }
 
-export const createAccountMutation = () => {
+export const useCreateAccountMutation = () => {
     const { handleAuthetication } = useAuth()
     const { mutate, status, error, isPending, isSuccess, data} = useMutation({
         mutationKey: ['register'],

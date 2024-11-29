@@ -22,7 +22,7 @@ const createJobProfileFetch = async ({applicantData, resumeFile }: { applicantDa
 }
 
 
-export const applicantProfileMutation = () => {
+export const useApplicantProfileMutation = () => {
     const { mutate, status, error, isPending, isSuccess, data} = useMutation({
         mutationKey: ['job-profile'],
         mutationFn: createJobProfileFetch

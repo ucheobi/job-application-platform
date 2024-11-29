@@ -1,8 +1,9 @@
 "use client"
 
-import { createContext, useContext, useEffect, useState } from "react"
-import { AuthContextType } from "../types"
 import { useRouter } from "next/navigation"
+import { createContext, useContext, useEffect, useState } from "react"
+import { useFetchApplicantProfile } from "../api/queries/use-fetch-applicant-profile"
+import { AuthContextType } from "../types"
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
@@ -13,18 +14,22 @@ export default function SharedLayout({
   }) {
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false)
     const router = useRouter()
+    const { profileRefetch } = useFetchApplicantProfile()
 
     useEffect(() => {
         const token = sessionStorage.getItem("token")
 
         if (token) {
             setIsAuthenticated(true)
+
+            profileRefetch()
         }
-    }, [])
+    }, [isAuthenticated, profileRefetch])
 
     const handleAuthetication = (token: string) => {
         sessionStorage.setItem("token", token)
         setIsAuthenticated(true) 
+
         router.push("/dashboard/applicant")
     }
 

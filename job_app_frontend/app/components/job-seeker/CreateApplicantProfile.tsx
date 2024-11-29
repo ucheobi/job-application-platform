@@ -15,6 +15,7 @@ import TextField from "@mui/material/TextField";
 import { Theme, useTheme, styled } from "@mui/material/styles";
 
 import { skillsArray, useCreateProfileHandler } from "@/app/custom-hooks/use-create-profile-handler";
+import { JobProfileType } from "@/app/types";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -51,7 +52,7 @@ const CustomInputField = styled(Input)({
   },
 })
 
-const CreateApplicantProfile = () => {
+const CreateApplicantProfile = (profileData: JobProfileType | undefined) => {
   const theme = useTheme();
 
   const {
@@ -62,8 +63,10 @@ const CreateApplicantProfile = () => {
     handleSubmit, 
     onSubmit, 
     workFields, 
-    educationFields 
-  } = useCreateProfileHandler()
+    educationFields,
+    handleAddEducation,
+    handleAddWorkExperience
+  } = useCreateProfileHandler(profileData)
   
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -194,7 +197,7 @@ const CreateApplicantProfile = () => {
                 ))
               }
 
-            <Button className="flex text-xs content-center md:text-sm md:font-bold"><AddIcon />Add work experience</Button>
+            <Button onClick={handleAddWorkExperience} className="flex self-center w-2/5 text-xs content-center md:text-sm md:font-bold"><AddIcon />Add work experience</Button>
         </FormGroup>
 
         <FormGroup> 
@@ -202,36 +205,36 @@ const CreateApplicantProfile = () => {
             {
               educationFields.map((education, index) => (
                 <Box key={education.id} className="p-4 border border-gray-300 bg-slate-50 mb-2 rounded-md">
-                <CustomTextfield
-                    variant='outlined'
-                    {...register(`education.${index}.institution`, { required: true })}
-                    fullWidth
-                    label="Institution"
-                    className="mb-4"
-                />
+                    <CustomTextfield
+                        variant='outlined'
+                        {...register(`education.${index}.institution`, { required: true })}
+                        fullWidth
+                        label="Institution"
+                        className="mb-4"
+                    />
 
-                <Box className="flex flex-col md:flex-row">
-                  <CustomTextfield
-                    {...register(`education.${index}.degree`, { required: true })}
-                    variant='outlined'
-                    fullWidth
-                    label="Degree"
-                    className="mb-4 md:mb-0 md:w-1/2 md:mr-4"
-                  />
-                  <CustomTextfield
-                    {...register(`education.${index}.graduation_year`, { required: true })}
-                    variant='outlined'
-                    label="Graduation Year"
-                    placeholder="2010"
-                    fullWidth
-                    className="md:w-1/2"
-                  />
-                </Box>   
-            </Box>
+                    <Box className="flex flex-col md:flex-row">
+                      <CustomTextfield
+                        {...register(`education.${index}.degree`, { required: true })}
+                        variant='outlined'
+                        fullWidth
+                        label="Degree"
+                        className="mb-4 md:mb-0 md:w-1/2 md:mr-4"
+                      />
+                      <CustomTextfield
+                        {...register(`education.${index}.graduation_year`, { required: true })}
+                        variant='outlined'
+                        label="Graduation Year"
+                        placeholder="2010"
+                        fullWidth
+                        className="md:w-1/2"
+                      />
+                    </Box>   
+                </Box>
               ))
             }
-            
-            <Button className="flex text-xs content-center mb-8 md:text-sm md:font-bold"><AddIcon />Add education</Button>
+
+              <Button onClick={handleAddEducation} className="flex self-center text-xs w-1/3 content-center mb-8 md:text-sm md:font-bold"><AddIcon />Add education</Button>   
         </FormGroup>
 
           <CustomInputField 

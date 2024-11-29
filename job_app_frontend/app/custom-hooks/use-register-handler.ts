@@ -1,5 +1,5 @@
-import { createAccountMutation } from "../api/mutations/create-account-mutation";
-import { Role, UserRegisterType } from "../types";
+import { useCreateAccountMutation } from "../api/mutations/use-create-account-mutation";
+import { UserRegisterType } from "../types";
 import { useForm, SubmitHandler } from "react-hook-form-mui";
 
 
@@ -15,7 +15,7 @@ export const useRegisterHandler = () => {
         mode: "onBlur"
     })
 
-    const { registerMutate, registerMutateError } = createAccountMutation()
+    const { registerMutate, registerMutateError } = useCreateAccountMutation()
 
     const handleRegisterSubmit: SubmitHandler<UserRegisterType> = (userData: UserRegisterType, ev?: React.BaseSyntheticEvent) => {
         ev?.preventDefault()

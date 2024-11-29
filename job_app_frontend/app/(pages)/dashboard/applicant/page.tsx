@@ -1,16 +1,23 @@
 "use client"
 
-import Stack from "@mui/material/Stack"
+import { useFetchApplicantProfile } from "@/app/api/queries/use-fetch-applicant-profile"
 import JobPanelTab from "@/app/components/job-seeker/JobPanelTab"
+import Stack from "@mui/material/Stack"
 
   
- const page = () => {
+ const Page = () => {
+   const { profileData, profileStatus, profileError, profilePending } = useFetchApplicantProfile()
    return (
     <Stack className="py-4 px-10">
-      <JobPanelTab />
+      <JobPanelTab
+        profileData={profileData}
+        profileStatus={profileStatus}
+        profileError={profileError}
+        profilePending={profilePending}
+      />
     </Stack>
    )
  }
  
- export default page
+ export default Page
  
