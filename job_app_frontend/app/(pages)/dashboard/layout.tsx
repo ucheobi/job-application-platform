@@ -96,6 +96,7 @@ export default function DashboardLayout({ children }: {
     if (!currentUser) {
       router.push("/account/auth")
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router])
   
  

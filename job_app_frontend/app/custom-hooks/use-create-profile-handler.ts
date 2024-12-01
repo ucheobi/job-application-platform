@@ -1,8 +1,9 @@
-import { SubmitHandler, useFieldArray, useForm } from "react-hook-form-mui";
+import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import { JobProfileType } from "../types";
 import { useEffect, useState } from "react";
-import { useApplicantProfileMutation } from "../api/mutations/use-applicant-profile-mutation";
+import { useCreateApplicantMutation } from "../api/mutations/use-create-applicant-mutation";
 import { SelectChangeEvent } from "@mui/material";
+import { useUpdateApplicantMutation } from "../api/mutations/use-update-applicant-mutation";
 
 export const skillsArray = [
   "Python",
@@ -23,24 +24,24 @@ export const skillsArray = [
 export const useCreateProfileHandler = ( profileData: JobProfileType | undefined ) => {
   const [skillSet, setSkillSet] = useState<string[]>([]);
   const [resumeFile, setResumeFile] = useState<File | null>(null)
+  const [resumeName, setResumeName] = useState<string>("")
   
   const {
     handleSubmit,
     register,
-    control,
-    reset
+    control
   } = useForm<JobProfileType>({
     defaultValues: {
-      title: "",
-      current_location: "",
-      portfolio_url: "",
+      title: profileData && profileData.title || "",
+      current_location: profileData && profileData.current_location || "",
+      portfolio_url: profileData && profileData.portfolio_url || "",
       skills: [""],
-      education: [{
+      education: profileData && profileData.education || [{
         institution: "",
         degree: "",
         graduation_year: 2010
       }],
-      work_experience: [{
+      work_experience: profileData && profileData.work_experience || [{
         title: "",
         company: "",
         start_date: "",
@@ -50,15 +51,12 @@ export const useCreateProfileHandler = ( profileData: JobProfileType | undefined
     }
   });
 
-
   useEffect(() => {
-    if (profileData) {
-      reset({
-        ...profileData,
-       work_experience: profileData.work_experience || [],
-      })
+    if (profileData && profileData.skills && profileData.resume_url) {
+      setSkillSet(profileData.skills)
+      setResumeName(profileData.resume_url)
     }
-  }, [profileData, reset])
+  }, [profileData])
 
   const {fields: workFields, append: appendWorkExperience} = useFieldArray<JobProfileType>({
     control,
@@ -70,13 +68,17 @@ export const useCreateProfileHandler = ( profileData: JobProfileType | undefined
     name: "education"
   })
 
-  const { createJobProfileMutate } = useApplicantProfileMutation()
+  const { createJobProfileMutate } = useCreateApplicantMutation()
+  const { updateJobProfileMutate } = useUpdateApplicantMutation()
   
 
   const onSubmit: SubmitHandler<JobProfileType> = (applicantData: JobProfileType, event?: React.BaseSyntheticEvent) => {
     event?.preventDefault()
     
     if (resumeFile) {
+      if (profileData) {
+        updateJobProfileMutate({applicantData, resumeFile})
+      }
       createJobProfileMutate({applicantData, resumeFile})
     }
   }
@@ -111,12 +113,14 @@ export const useCreateProfileHandler = ( profileData: JobProfileType | undefined
     skillSet,
     handleSubmit,
     register,
+    resumeName,
+    resumeFile,
     workFields,
     educationFields,
     onSubmit,
     handleSkillChange,
     handleFileChange,
     handleAddEducation,
-    handleAddWorkExperience
+    handleAddWorkExperience,
   }
 }

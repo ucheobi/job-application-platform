@@ -60,12 +60,14 @@ const CreateApplicantProfile = (profileData: JobProfileType | undefined) => {
     handleFileChange, 
     handleSkillChange, 
     register, 
+    resumeName,
+    resumeFile,
     handleSubmit, 
     onSubmit, 
     workFields, 
     educationFields,
     handleAddEducation,
-    handleAddWorkExperience
+    handleAddWorkExperience,
   } = useCreateProfileHandler(profileData)
   
   return (
@@ -102,6 +104,13 @@ const CreateApplicantProfile = (profileData: JobProfileType | undefined) => {
                 type="file"
                 className="text-sm"
               />
+              {
+                resumeName && !resumeFile && (
+                  <Box className="text-xs mt-1">
+                    <strong>{ resumeName }</strong>
+                  </Box>
+                )
+              }
             </FormGroup>
         </Box>
 
@@ -197,7 +206,11 @@ const CreateApplicantProfile = (profileData: JobProfileType | undefined) => {
                 ))
               }
 
-            <Button onClick={handleAddWorkExperience} className="flex self-center w-2/5 text-xs content-center md:text-sm md:font-bold"><AddIcon />Add work experience</Button>
+            <Button 
+              onClick={handleAddWorkExperience} 
+              className="flex self-center w-2/5 text-xs content-center md:text-sm md:font-bold">
+                <AddIcon />Add work experience
+            </Button>
         </FormGroup>
 
         <FormGroup> 
@@ -206,6 +219,7 @@ const CreateApplicantProfile = (profileData: JobProfileType | undefined) => {
               educationFields.map((education, index) => (
                 <Box key={education.id} className="p-4 border border-gray-300 bg-slate-50 mb-2 rounded-md">
                     <CustomTextfield
+                        key={index}
                         variant='outlined'
                         {...register(`education.${index}.institution`, { required: true })}
                         fullWidth
@@ -234,13 +248,19 @@ const CreateApplicantProfile = (profileData: JobProfileType | undefined) => {
               ))
             }
 
-              <Button onClick={handleAddEducation} className="flex self-center text-xs w-1/3 content-center mb-8 md:text-sm md:font-bold"><AddIcon />Add education</Button>   
+              <Button 
+                onClick={handleAddEducation} 
+                className="flex self-center text-xs w-1/3 content-center mb-8 md:text-sm md:font-bold">
+                  <AddIcon />Add education
+              </Button>   
         </FormGroup>
 
           <CustomInputField 
             disableUnderline={true}
             type="submit"
-            className="flex self-center bg-red-900 text-white font-bold border border-none rounded-md mb-4 text-center text-sm w-1/2 cursor-pointer hover:bg-red-800"  
+            className="flex self-center bg-red-900 text-white 
+              font-bold border border-none rounded-md mb-4 text-center text-sm w-1/2 
+              cursor-pointer hover:bg-red-800"  
           />
       </Stack>
     </form>

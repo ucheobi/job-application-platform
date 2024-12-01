@@ -14,6 +14,7 @@ const ProfileDetails = ({
     first_name,
     last_name,
     email,
+    resume_url,
     handleProfileEdit
 }: JobProfileDetails) => {
   return (
@@ -25,7 +26,7 @@ const ProfileDetails = ({
         <Stack className="p-4 my-4 border rounded-lg">
             <Box className='flex'>
                 <strong className='w-1/4 text-red-900'>First Name: </strong>
-                <Typography className='ml-1 w-3/4 text-sm text-gray-700' component="span">{ first_name }</Typography>
+                <Typography className='ml-1 w-3/4 text-sm text-gray-700'>{ first_name }</Typography>
             </Box>
             <Box className='flex'>
                 <strong className='w-1/4 text-red-900'>Last name: </strong>
@@ -45,6 +46,10 @@ const ProfileDetails = ({
             <Box className="flex">
                 <strong className='w-1/4 text-red-900'>Location: </strong>
                 <Typography className='ml-1 w-3/4 text-sm text-gray-700'>{ current_location }</Typography>
+            </Box>
+            <Box className="flex">
+                <strong className='w-1/4 text-red-900'>Resume: </strong>
+                <Typography className='ml-1 w-3/4 text-sm text-gray-700'>{ resume_url }</Typography>
             </Box>
             <Box className="flex">
                 <strong className='w-1/4 text-red-900'>Portfolio Url: </strong>

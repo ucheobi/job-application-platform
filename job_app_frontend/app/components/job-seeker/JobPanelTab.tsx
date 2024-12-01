@@ -90,6 +90,7 @@ export default function JobPanelTab({ profileData, profileStatus}: JobPanelProps
                 title={profileData?.title} 
                 current_location={profileData?.current_location} 
                 portfolio_url={profileData?.portfolio_url} 
+                resume_url={profileData?.resume_url}
                 skills={profileData?.skills} 
                 education={profileData?.education} 
                 work_experience={profileData?.work_experience}  
@@ -104,6 +105,7 @@ export default function JobPanelTab({ profileData, profileStatus}: JobPanelProps
                     email={currentUser?.user?.email} 
                     title={profileData.title} 
                     current_location={profileData.current_location} 
+                    resume_url={profileData.resume_url}
                     portfolio_url={profileData.portfolio_url} 
                     skills={profileData.skills} 
                     education={profileData.education} 
