@@ -14,11 +14,14 @@ interface JobPanelTabProps {
   value: number;
 }
 
+export type JobProfileStatus = "success" | "error" | "pending"
+
 interface JobPanelProps {
     profileData: JobProfileType | undefined;
     profileError: Error | null;
     profilePending: boolean;
-    profileStatus: "success" | "error" | "pending"
+    profileStatus: JobProfileStatus;
+    updateApplicantStatus: JobProfileStatus | "idle"
 }
 
 function JobPanelTabContent(props: JobPanelTabProps) {
@@ -46,7 +49,7 @@ function a11yProps(index: number) {
 
 const firstTabReference = 0;
 
-export default function JobPanelTab({ profileData, profileStatus}: JobPanelProps) {
+export default function JobPanelTab({ profileData, profileStatus, updateApplicantStatus}: JobPanelProps) {
   const [value, setValue] = useState(firstTabReference);
   const [isEditing, setIsEditing] = useState(true)
 
@@ -69,6 +72,11 @@ export default function JobPanelTab({ profileData, profileStatus}: JobPanelProps
     setValue(0)
   }
 
+  if (updateApplicantStatus === "success") {
+      setIsEditing(false)
+      setValue(1)
+  }
+
   return (
     <Box>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -87,13 +95,8 @@ export default function JobPanelTab({ profileData, profileStatus}: JobPanelProps
       <JobPanelTabContent value={value} index={0}>
         {
             <CreateApplicantProfile 
-                title={profileData?.title} 
-                current_location={profileData?.current_location} 
-                portfolio_url={profileData?.portfolio_url} 
-                resume_url={profileData?.resume_url}
-                skills={profileData?.skills} 
-                education={profileData?.education} 
-                work_experience={profileData?.work_experience}  
+                profileData={profileData}
+                profileStatus={profileStatus}
             />
         }
       </JobPanelTabContent>

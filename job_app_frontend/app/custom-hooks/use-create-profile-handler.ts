@@ -1,4 +1,4 @@
-import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
+import { SubmitHandler, useFieldArray, useForm } from "react-hook-form-mui";
 import { JobProfileType } from "../types";
 import { useEffect, useState } from "react";
 import { useCreateApplicantMutation } from "../api/mutations/use-create-applicant-mutation";
@@ -21,7 +21,7 @@ export const skillsArray = [
   "MySQL"
 ]
 
-export const useCreateProfileHandler = ( profileData: JobProfileType | undefined ) => {
+export const useCreateProfileHandler = ( profileData: JobProfileType | undefined) => {
   const [skillSet, setSkillSet] = useState<string[]>([]);
   const [resumeFile, setResumeFile] = useState<File | null>(null)
   const [resumeName, setResumeName] = useState<string>("")
@@ -69,18 +69,19 @@ export const useCreateProfileHandler = ( profileData: JobProfileType | undefined
   })
 
   const { createJobProfileMutate } = useCreateApplicantMutation()
-  const { updateJobProfileMutate } = useUpdateApplicantMutation()
+  const { updateApplicantMutate } = useUpdateApplicantMutation()
   
-
   const onSubmit: SubmitHandler<JobProfileType> = (applicantData: JobProfileType, event?: React.BaseSyntheticEvent) => {
     event?.preventDefault()
     
-    if (resumeFile) {
-      if (profileData) {
-        updateJobProfileMutate({applicantData, resumeFile})
-      }
-      createJobProfileMutate({applicantData, resumeFile})
+    if (resumeFile && !profileData) {
+        console.log("Create profile")
+        createJobProfileMutate({applicantData, resumeFile})
+    } else {
+      console.log("Update Profile")
+      updateApplicantMutate({applicantData, resumeFile})
     }
+
   }
 
   const handleFileChange = (event?: React.ChangeEvent<HTMLInputElement>) => {
@@ -106,7 +107,7 @@ export const useCreateProfileHandler = ( profileData: JobProfileType | undefined
   }
 
   const handleAddWorkExperience = () => {
-    appendWorkExperience({company: "", title: "", start_date: "01.06.2000", end_date: "", description: ""})
+    appendWorkExperience({company: "", title: "", start_date: "01.06.2000", end_date: "31.05.2004", description: ""})
   }
 
   return {

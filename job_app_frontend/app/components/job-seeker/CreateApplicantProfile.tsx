@@ -16,6 +16,7 @@ import { Theme, useTheme, styled } from "@mui/material/styles";
 
 import { skillsArray, useCreateProfileHandler } from "@/app/custom-hooks/use-create-profile-handler";
 import { JobProfileType } from "@/app/types";
+import { JobProfileStatus } from "./JobPanelTab";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -52,7 +53,12 @@ const CustomInputField = styled(Input)({
   },
 })
 
-const CreateApplicantProfile = (profileData: JobProfileType | undefined) => {
+interface JobProfileTabProps {
+  profileData: JobProfileType | undefined;
+  profileStatus: JobProfileStatus
+}
+
+const CreateApplicantProfile = ({profileData, profileStatus}: JobProfileTabProps ) => {
   const theme = useTheme();
 
   const {
@@ -100,7 +106,7 @@ const CreateApplicantProfile = (profileData: JobProfileType | undefined) => {
               <input
                 accept=".pdf,.doc,.docx"
                 onChange={handleFileChange}
-                required
+                required={profileStatus !== "success" ? true : false}
                 type="file"
                 className="text-sm"
               />
