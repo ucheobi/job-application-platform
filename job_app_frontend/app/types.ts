@@ -71,6 +71,7 @@ export type JobProfileDetails = JobProfileType & {
     first_name?: string;
     last_name?: string;
     handleProfileEdit: () => void
+    handleProfileDelete: () => void
 }
 
 export type LoginProps = {

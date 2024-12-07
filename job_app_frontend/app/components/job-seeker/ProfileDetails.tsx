@@ -15,12 +15,14 @@ const ProfileDetails = ({
     last_name,
     email,
     resume_url,
-    handleProfileEdit
+    handleProfileEdit,
+    handleProfileDelete
 }: JobProfileDetails) => {
   return (
     <Box>
-        <Stack className='flex'>
+        <Stack className='flex justify-between flex-row'>
             <Button className='self-end font-bold' variant="contained" onClick={handleProfileEdit}>Edit Profile</Button>
+            <Button className='self-end font-bold' variant="contained" onClick={handleProfileDelete}>Delete Profile</Button>
         </Stack>
 
         <Stack className="p-4 my-4 border rounded-lg">

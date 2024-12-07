@@ -1,9 +1,9 @@
-import { SubmitHandler, useFieldArray, useForm } from "react-hook-form-mui";
-import { JobProfileType } from "../types";
-import { useEffect, useState } from "react";
-import { useCreateApplicantMutation } from "../api/mutations/use-create-applicant-mutation";
 import { SelectChangeEvent } from "@mui/material";
-import { useUpdateApplicantMutation } from "../api/mutations/use-update-applicant-mutation";
+import { useEffect, useState } from "react";
+import { SubmitHandler, useFieldArray, useForm } from "react-hook-form-mui";
+import { useUpdateApplicantMutation } from "../api/applicant/mutations/use-update-applicant-mutation";
+import { JobProfileType } from "../types";
+import { useCreateApplicantMutation } from "../api/applicant/mutations/use-create-applicant-mutation";
 
 export const skillsArray = [
   "Python",

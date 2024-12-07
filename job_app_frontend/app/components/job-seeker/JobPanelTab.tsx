@@ -6,6 +6,7 @@ import CreateApplicantProfile from './CreateApplicantProfile';
 import ProfileDetails from './ProfileDetails';
 import { JobProfileType } from '@/app/types';
 import { getCurrentUser } from '@/app/utils/get-current-user';
+import { useDeleteApplicantProfile } from '@/app/api/applicant/mutations/use-delete-applicant-mutation';
 
 
 interface JobPanelTabProps {
@@ -60,6 +61,7 @@ export default function JobPanelTab({ profileData, profileStatus, updateApplican
   }, [profileData])
 
   const currentUser = getCurrentUser();
+  const { deleteProfileMutate } = useDeleteApplicantProfile()
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     event.preventDefault()
@@ -72,6 +74,11 @@ export default function JobPanelTab({ profileData, profileStatus, updateApplican
     setValue(0)
   }
 
+  const handleProfileDelete = () => {
+    deleteProfileMutate()
+    setValue(0)
+  }
+ 
   if (updateApplicantStatus === "success") {
       setIsEditing(false)
       setValue(1)
@@ -114,6 +121,7 @@ export default function JobPanelTab({ profileData, profileStatus, updateApplican
                     education={profileData.education} 
                     work_experience={profileData.work_experience}
                     handleProfileEdit={handleProfileEdit}
+                    handleProfileDelete={handleProfileDelete}
                 />
             )
         }

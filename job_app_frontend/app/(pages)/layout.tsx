@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation"
 import { createContext, useContext, useEffect, useState } from "react"
-import { useFetchApplicantProfile } from "../api/queries/use-fetch-applicant-profile"
+import { useFetchApplicantProfile } from "../api/applicant/queries/use-fetch-applicant-profile"
 import { AuthContextType } from "../types"
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)

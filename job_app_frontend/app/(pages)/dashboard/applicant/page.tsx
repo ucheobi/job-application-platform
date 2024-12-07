@@ -1,7 +1,7 @@
 "use client"
 
-import { useUpdateApplicantMutation } from "@/app/api/mutations/use-update-applicant-mutation"
-import { useFetchApplicantProfile } from "@/app/api/queries/use-fetch-applicant-profile"
+import { useUpdateApplicantMutation } from "@/app/api/applicant/mutations/use-update-applicant-mutation"
+import { useFetchApplicantProfile } from "@/app/api/applicant/queries/use-fetch-applicant-profile"
 import JobPanelTab from "@/app/components/job-seeker/JobPanelTab"
 import Stack from "@mui/material/Stack"
 
