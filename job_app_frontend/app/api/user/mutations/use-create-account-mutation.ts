@@ -16,7 +16,7 @@ const createUser = async (userData: UserRegisterType) => {
 
 export const useCreateAccountMutation = () => {
     const { handleAuthetication } = useAuth()
-    const { mutate, status, error, isPending, isSuccess, data} = useMutation({
+    const { mutate, status, error, isPending, isSuccess, data } = useMutation({
         mutationKey: ['register'],
         mutationFn: createUser,
         onSuccess: (data) => {

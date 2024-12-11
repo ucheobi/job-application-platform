@@ -15,12 +15,13 @@ const fetchProfile = async () => {
 
 
 export const useFetchApplicantProfile = () => {
-    const { isPending, data, error, status, refetch } = useQuery<JobProfileType>({
+    const { isPending, data, error, status, refetch, } = useQuery<JobProfileType>({
         queryKey: ["profile"],
         queryFn: fetchProfile,  
-        refetchOnMount: true,
+        //refetchOnMount: true,
         refetchOnReconnect: true,
-        refetchOnWindowFocus: true
+        //refetchOnWindowFocus: true,
+        retry: 1
     })
 
     return {

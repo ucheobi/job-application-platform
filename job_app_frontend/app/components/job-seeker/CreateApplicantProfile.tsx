@@ -55,10 +55,12 @@ const CustomInputField = styled(Input)({
 
 interface JobProfileTabProps {
   profileData: JobProfileType | undefined;
-  profileStatus: JobProfileStatus
+  profileStatus: JobProfileStatus;
+  isEditing: boolean;
+  handleCancelEditing: () => void
 }
 
-const CreateApplicantProfile = ({profileData, profileStatus}: JobProfileTabProps ) => {
+const CreateApplicantProfile = ({ profileData, profileStatus, isEditing, handleCancelEditing}: JobProfileTabProps ) => {
   const theme = useTheme();
 
   const {
@@ -261,13 +263,29 @@ const CreateApplicantProfile = ({profileData, profileStatus}: JobProfileTabProps
               </Button>   
         </FormGroup>
 
-          <CustomInputField 
-            disableUnderline={true}
-            type="submit"
-            className="flex self-center bg-red-900 text-white 
-              font-bold border border-none rounded-md mb-4 text-center text-sm w-1/2 
-              cursor-pointer hover:bg-red-800"  
-          />
+        {
+          isEditing ? (
+            <Stack className="flex flex-row justify-center">
+               <CustomInputField 
+                  disableUnderline={true}
+                  type="submit"
+                  className="bg-green-800 hover:bg-green-700 w-1/4 border-none rounded-md text-white font-bold mr-4"  
+                />
+
+                <Button className='w-1/4 font-bold capitalize bg-red-800 hover:bg-red-700' variant="contained" onClick={handleCancelEditing}>Cancel</Button>
+            </Stack>
+          ) : (
+            <CustomInputField 
+              disableUnderline={true}
+              type="submit"
+              className="flex uppercase self-center bg-red-800 text-white 
+                font-extrabold text-lg border-none rounded-md mb-4 text-center w-1/3 
+                cursor-pointer hover:bg-red-700"  
+             />
+          )
+        }
+
+          
       </Stack>
     </form>
   )

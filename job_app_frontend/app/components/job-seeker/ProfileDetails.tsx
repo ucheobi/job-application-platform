@@ -3,6 +3,7 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
+import DeleteProfileModal from './DeleteModal'
 
 const ProfileDetails = ({ 
     title,
@@ -16,14 +17,25 @@ const ProfileDetails = ({
     email,
     resume_url,
     handleProfileEdit,
-    handleProfileDelete
+    handleProfileDelete,
+    handleCloseModal,
+    handleOpenModal,
+    openDeleteModal
 }: JobProfileDetails) => {
+    
   return (
     <Box>
-        <Stack className='flex justify-between flex-row'>
-            <Button className='self-end font-bold' variant="contained" onClick={handleProfileEdit}>Edit Profile</Button>
-            <Button className='self-end font-bold' variant="contained" onClick={handleProfileDelete}>Delete Profile</Button>
+        <Stack className='flex justify-end flex-row mr-2'>
+            <Button className='font-bold bg-green-800 hover:bg-green-700 mr-4' variant="contained" onClick={handleProfileEdit}>Edit</Button>
+            <Button className=' font-bold bg-red-800 hover:bg-red-700' variant="contained" onClick={handleOpenModal}>Delete</Button>
         </Stack>
+
+        <DeleteProfileModal 
+            openDeleteModal={openDeleteModal}
+            handleCloseModal={handleCloseModal}
+            handleOpenModal={handleOpenModal}
+            handleProfileDelete={handleProfileDelete}
+        />
 
         <Stack className="p-4 my-4 border rounded-lg">
             <Box className='flex'>

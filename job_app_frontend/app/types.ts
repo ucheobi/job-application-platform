@@ -72,6 +72,9 @@ export type JobProfileDetails = JobProfileType & {
     last_name?: string;
     handleProfileEdit: () => void
     handleProfileDelete: () => void
+    handleOpenModal: () => void
+    handleCloseModal: () => void
+    openDeleteModal: boolean
 }
 
 export type LoginProps = {
@@ -111,3 +114,10 @@ export interface AuthContextType {
     isAuthenticated: boolean;
     handleAuthetication: (token: string) => void
 } 
+
+export interface DeleteModalProps {
+    openDeleteModal: boolean;
+    handleOpenModal: () => void;
+    handleCloseModal: () => void;
+    handleProfileDelete: () => void;
+}

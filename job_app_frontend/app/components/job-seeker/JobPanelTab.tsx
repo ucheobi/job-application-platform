@@ -50,18 +50,21 @@ function a11yProps(index: number) {
 
 const firstTabReference = 0;
 
-export default function JobPanelTab({ profileData, profileStatus, updateApplicantStatus}: JobPanelProps) {
+export default function JobPanelTab({ profileData, profileStatus, updateApplicantStatus }: JobPanelProps) {
   const [value, setValue] = useState(firstTabReference);
-  const [isEditing, setIsEditing] = useState(true)
+  const [isEditing, setIsEditing] = useState(false);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
-  React.useEffect(() => {
+  const { deleteProfileMutate } = useDeleteApplicantProfile()
+
+  React.useEffect(() => { 
+    // Automatically move the tab to profile details tab if user already exist
     if (profileData) {
-        setValue(1) // Automatically move the tab to profile details tab if user already exist
+        setValue(1) 
     }
   }, [profileData])
 
   const currentUser = getCurrentUser();
-  const { deleteProfileMutate } = useDeleteApplicantProfile()
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     event.preventDefault()
@@ -74,10 +77,18 @@ export default function JobPanelTab({ profileData, profileStatus, updateApplican
     setValue(0)
   }
 
-  const handleProfileDelete = () => {
-    deleteProfileMutate()
+  const handleCancelEditing = () => {
+    setIsEditing(!isEditing)
+    setValue(1)
+  }
+
+  const handleProfileDelete = async () => {
+    await deleteProfileMutate()
     setValue(0)
   }
+
+  const handleOpenModal = () => setOpenDeleteModal(true)
+  const handleCloseModal = () => setOpenDeleteModal(false)
  
   if (updateApplicantStatus === "success") {
       setIsEditing(false)
@@ -104,6 +115,8 @@ export default function JobPanelTab({ profileData, profileStatus, updateApplican
             <CreateApplicantProfile 
                 profileData={profileData}
                 profileStatus={profileStatus}
+                isEditing={isEditing}
+                handleCancelEditing={handleCancelEditing}
             />
         }
       </JobPanelTabContent>
@@ -122,6 +135,9 @@ export default function JobPanelTab({ profileData, profileStatus, updateApplican
                     work_experience={profileData.work_experience}
                     handleProfileEdit={handleProfileEdit}
                     handleProfileDelete={handleProfileDelete}
+                    openDeleteModal={openDeleteModal}
+                    handleOpenModal={handleOpenModal}
+                    handleCloseModal={handleCloseModal}
                 />
             )
         }

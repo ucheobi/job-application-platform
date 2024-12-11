@@ -1,7 +1,5 @@
 import axiosInstance from "@/app/config/axios"
-import { useMutation } from "@tanstack/react-query";
-import { useFetchApplicantProfile } from "../queries/use-fetch-applicant-profile";
-
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const deleteProfile = async () => {
     try {
@@ -13,21 +11,21 @@ const deleteProfile = async () => {
     }   
 }
 
-
 export const useDeleteApplicantProfile = () => {
-    const { profileRefetch } = useFetchApplicantProfile()
+    const queryClient = useQueryClient()
 
-    const { error, status, mutate } = useMutation({
+    const { error, status, mutateAsync, isSuccess } = useMutation({
         mutationKey: ["profile-delete"],
         mutationFn: deleteProfile,
-        onSuccess: () => [
-            profileRefetch()
-        ]
+        onSuccess: () => {
+            queryClient.resetQueries({queryKey: ['profile'], exact: true})
+        }
     })
 
     return {
         deleteProfileError: error,
-        deleteProfileMutate: mutate,
-        deleteProfileStatus: status
+        deleteProfileMutate: mutateAsync,
+        deleteProfileStatus: status,
+        deleteSuccessful: isSuccess
     }
 }

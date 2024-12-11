@@ -4,7 +4,6 @@ import { SubmitHandler, useFieldArray, useForm } from "react-hook-form-mui";
 import { useUpdateApplicantMutation } from "../api/applicant/mutations/use-update-applicant-mutation";
 import { JobProfileType } from "../types";
 import { useCreateApplicantMutation } from "../api/applicant/mutations/use-create-applicant-mutation";
-
 export const skillsArray = [
   "Python",
   "JavaScript",
@@ -23,9 +22,9 @@ export const skillsArray = [
 
 export const useCreateProfileHandler = ( profileData: JobProfileType | undefined) => {
   const [skillSet, setSkillSet] = useState<string[]>([]);
-  const [resumeFile, setResumeFile] = useState<File | null>(null)
-  const [resumeName, setResumeName] = useState<string>("")
-  
+  const [resumeFile, setResumeFile] = useState<File | null>(null);
+  const [resumeName, setResumeName] = useState<string>("");
+
   const {
     handleSubmit,
     register,
