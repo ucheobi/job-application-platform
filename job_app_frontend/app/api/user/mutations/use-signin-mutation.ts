@@ -1,33 +1,17 @@
-import { useAuth } from "@/app/(pages)/layout";
-import axiosInstance from "@/app/config/axios";
-import { ErrorResponse, UserLoginType } from "@/app/types";
+"use client"
+
+import { ErrorResponse } from "@/app/types";
 import { useMutation } from "@tanstack/react-query";
+import { signInUser } from "../../lib/actions/user.actions";
 
-
-const signInUser = async (loginData: UserLoginType) => {
-    const userData = new FormData();
-    userData.append("username", loginData.username)
-    userData.append("password", loginData.password)
-
-    const response = await axiosInstance.post("/login", userData, {
-        headers: {
-            "Content-Type": "multi-part/form-data"
-        }
-    })
-
-    return response.data
-}
 
 export const useSignInMutation = () => {
-    const { handleAuthetication } = useAuth()
-    
     const {isPending, isSuccess, error, data, mutate} = useMutation({
         mutationKey: ["signin"],
         mutationFn: signInUser,
         onSuccess: (data) => {
             const token = data.access_token
-            
-            handleAuthetication(token)
+            sessionStorage.setItem("token", token)    
         },
         onError: (error) => {
             console.error("Login failed", error)
