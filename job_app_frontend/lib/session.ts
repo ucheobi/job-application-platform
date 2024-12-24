@@ -16,6 +16,5 @@ export async function createSession(sessionToken: string) {
     secure: true,
     expires: expiresAt,
     sameSite: 'lax',
-    path: '/',
   })
 }

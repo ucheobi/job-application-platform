@@ -1,6 +1,6 @@
 "use server"
 
-import axiosInstance from "@/config/axios";
+import customRequest from "@/config/custom-config";
 import { UserLoginType, UserRegisterType, UserResponseType, UserSession } from "@/types";
 import { jwtDecode } from "jwt-decode";
 import { cookies } from "next/headers";
@@ -8,34 +8,41 @@ import { redirect } from "next/navigation";
 import { createSession } from "../session";
 
 export const signInUser = async (loginData: UserLoginType) => {
-    const userData = new FormData();
-    userData.append("username", loginData.username)
-    userData.append("password", loginData.password)
+        const userData = new FormData();
+        userData.append("username", loginData.username)
+        userData.append("password", loginData.password)
 
-    const response = await axiosInstance.post("/login", userData, {
-        headers: {
-            "Content-Type": "multi-part/form-data"
-        },
-    })
+        const response = await customRequest("/login", {
+                method: "POST",
+                body: userData,
+            }   
+        )
 
-    // Create user session
-    const token = response.data["access_token"]
+        const data = await response.json()
 
-    await createSession(token)
+        // Get access token
+        const token = data.access_token
 
-    // Redirect user to dashboard
-    redirect("/dashboard")
+        // Create session
+        await createSession(token)
 
+        // Redirect user to dashboard
+        redirect("/dashboard")
 }
 
 export const createUser = async (userData: UserRegisterType) => {
-    const response = await axiosInstance.post("/users", userData)
+    const response = await customRequest("/register", {
+        method: "POST",
+        body: JSON.stringify(userData)
+    })
+
+    const data = await response.json()
 
     if (response.statusText == "error") {
         throw new Error("Error creating account!")
     }
 
-    return response.data;
+    return data;
 }
 
 export const getCurrentUser = async () => {

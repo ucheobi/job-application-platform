@@ -2,10 +2,10 @@ import { NextResponse, NextRequest } from 'next/server'
  
 export function middleware(request: NextRequest) {
   // Check if the user is authenticated
-  const isAuthenticated = authenticate(request)
+  const token = request.cookies.get('user')
  
   // If the user is authenticated, continue as normal
-  if (isAuthenticated) {
+  if (token) {
     return NextResponse.next()  
   }
  
@@ -15,10 +15,4 @@ export function middleware(request: NextRequest) {
  
 export const config = {
   matcher: '/dashboard/:path*',
-}
-
-function authenticate(request: NextRequest) {
-  // Check if the user is authenticated
-  const user = request.cookies.get('user')
-  return !!user
 }
