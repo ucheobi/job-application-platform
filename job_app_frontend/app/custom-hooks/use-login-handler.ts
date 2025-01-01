@@ -1,6 +1,7 @@
 import { SubmitHandler, useForm } from "react-hook-form-mui";
-import { useSignInMutation } from "../api/user/mutations/use-signin-mutation";
-import { UserLoginType } from "../types";
+import { UserLoginType } from "../../types";
+import { useSignInMutation } from "../api/user/use-account-queries";
+
 
 export const useLoginHandler = () => {
     const { register, handleSubmit, formState: { errors } } = useForm<UserLoginType>({
@@ -8,7 +9,7 @@ export const useLoginHandler = () => {
             username: "",
             password: ""
         },
-        mode: "onBlur"
+        mode: "onBlur",
     })
 
     const { loginMutate, loginError } = useSignInMutation()

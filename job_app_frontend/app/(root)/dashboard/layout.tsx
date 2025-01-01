@@ -1,7 +1,6 @@
 "use client"
 
 import React, { useEffect, useMemo, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { useQueryClient } from '@tanstack/react-query';
 import { AppProvider } from "@toolpad/core/nextjs";
 
@@ -11,67 +10,39 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import HomeIcon from '@mui/icons-material/Home';
 import Person2Icon from '@mui/icons-material/Person2';
 import WorkHistoryIcon from '@mui/icons-material/WorkHistory';
-import { createTheme } from '@mui/material';
 import { AuthenticationContext, SessionContext } from '@toolpad/core/AppProvider';
 import { DashboardLayout as MuiDashboardLayout } from '@toolpad/core/DashboardLayout';
 import JobLogo from '@/components/JobLogo';
+import theme from '@/components/dashboard-tab/theme';
 
-const theme = createTheme({
-  colorSchemes: { light: true, dark: true },
-  palette: {
-    primary: {
-      main: "#800000"
-    },
-  },
-  components: {
-    MuiDrawer: {
-      styleOverrides: {
-        paper: {
-          backgroundColor: "#404040"
-        }
-      }
-    },
-    MuiListItemText: {
-      styleOverrides: {
-        primary: {
-          color: "#ffffff",
-        }
-      }
-    },
-    MuiList: {
-      styleOverrides: {
-        
-      }
-    },
-    MuiListItem: {
-      styleOverrides: {
-        root: {
-          marginBottom: "0.6rem",
-        }
-      }
-    }
-  },
-  breakpoints: {
-    values: {
-      xs: 0,
-      sm: 600,
-      md: 600,
-      lg: 1200,
-      xl: 1536,
-    },
-  }
-});
 
 export default function DashboardLayout({ 
   children 
 }: { children: React.ReactNode }) {
-  const query = useQueryClient()
-  const router = useRouter()
   const [session, setSession] = useState<UserSession | null>(null);
   const [ lastActivity, setLastActivity ] = useState<number>(Date.now());
 
+  const query = useQueryClient()
+    
+  const authentication = useMemo(() => {
+    return {
+      signIn: async () => {
+        const user = await getCurrentUser()
+
+        if (user) {
+          setSession(user)
+        }
+      },
+      signOut: async () => {
+        await signOutUser()
+        query.clear()
+        setSession(null)
+      },
+    };
+  }, [query]);
+
   const timeoutMs = 60 * 1000;
-  const checkInterval = 1000
+  const checkInterval = 10 * 60 * 1000
 
   const handleActivity = () => {
     setLastActivity(Date.now())
@@ -85,38 +56,13 @@ export default function DashboardLayout({
     }
   }
 
-  const authentication = useMemo(() => {
-    return {
-      signIn: async () => { 
-        const user = await getCurrentUser()
-      },
-      signOut: async () => {
-        await signOutUser()
-        query.clear()
-        setSession(null)
-        
-        router.push("/account/auth")
-      }
-    };
-  }, [query, router]);
+  useEffect(() => {
+    authentication.signIn()
+    
+  },[authentication])
 
   useEffect(() => {
-    const getUser = async () => {
-      try {
-        const user = await getCurrentUser()
-        setSession(user)
-      } catch (error) {
-          console.error("Error fetching user data: ", error)
-      }
-    }
-
-    if (!session) {
-      getUser() 
-    }
-  }, [session])
-
-  useEffect(() => {
-      // on mount we will listen to several possible "interactive" events
+      //listen to several possible "interactive" events
       const events = [
           "focus",
           "scroll",
@@ -142,7 +88,8 @@ export default function DashboardLayout({
         // clear the interval
         clearInterval(intervalId);
       }
-  },[ lastActivity ]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[lastActivity]);
 
   return (
     <AppProvider
@@ -182,11 +129,12 @@ export default function DashboardLayout({
     >
       <AuthenticationContext.Provider value={authentication}>
         <SessionContext.Provider value={session}>
-          <MuiDashboardLayout>
-            {children}
-          </MuiDashboardLayout>
+            <MuiDashboardLayout>
+              {children}
+            </MuiDashboardLayout>
         </SessionContext.Provider>
       </AuthenticationContext.Provider>
     </AppProvider>
   )
 }
+

@@ -1,7 +1,6 @@
 "use server"
 
 import { cookies } from "next/headers"
-import { redirect } from "next/navigation";
 
 const baseURL = "http://127.0.0.1:8000"
 
@@ -31,16 +30,9 @@ export const customRequest = async (endpoint: string, options: RequestInit = {})
         headers
     })
 
-    if(response.status === 401) {
-        alert("Session expired! You are signed out. Please login to continue.")
-
-        // Redirect to login page
-        redirect("/account/auth")
+    if (!response.ok) {
+        console.error(`Http Error: ${response.status} ${response.statusText}`)
     }
-
-    // if (!response.ok) {
-    //     throw new Error(`Http Error: ${response.status} ${response.statusText}`)
-    // }
 
     return response
 };

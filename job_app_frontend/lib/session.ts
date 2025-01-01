@@ -1,6 +1,7 @@
 import 'server-only'
 
 import { cookies } from 'next/headers'
+import { redirect } from 'next/navigation'
  
 export async function createSession(sessionToken: string) {
   const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
@@ -16,5 +17,10 @@ export async function createSession(sessionToken: string) {
     secure: true,
     expires: expiresAt,
     sameSite: 'lax',
+    path: "/"
   })
+
+  if(sessionToken) {
+    redirect("/dashboard")
+  }
 }

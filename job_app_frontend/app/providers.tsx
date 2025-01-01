@@ -9,7 +9,13 @@ interface QueryProvidersProps {
 }
 
 export default function QueryProvider({ children }: QueryProvidersProps) {
-    const [ queryClient ] = useState(() => new QueryClient())
+    const [ queryClient ] = useState(() => new QueryClient({
+        defaultOptions: {
+            queries: {
+                staleTime: 60 * 1000
+            }
+        }
+    }))
 
     return (
         <QueryClientProvider client={queryClient}>

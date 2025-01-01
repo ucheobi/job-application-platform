@@ -3,8 +3,8 @@
 import customRequest from "@/config/custom-config"
 import { ApplicantProfileType } from "@/types"
 
-//Create job profile
 export const createApplicantProfile = async ({applicantData, resumeFile }: { applicantData: ApplicantProfileType, resumeFile: File }) => {
+   try {
     const formData = new FormData()
 
     formData.append("applicantData", JSON.stringify(applicantData))
@@ -17,24 +17,17 @@ export const createApplicantProfile = async ({applicantData, resumeFile }: { app
 
     const data = await response.json()
 
-
-    if (response.statusText == "error") {
-        throw new Error("Error creating job profile!")
-    }
-
     return data;
+    } catch (err) {
+        throw new Error(`Error creating job profile!: ${err}`)
+    }
 }
 
-//Fetch job profile
-export const fetchApplicantProfile = async () => {
+export const fetchApplicantProfile = async (): Promise<ApplicantProfileType | undefined> => {
     try {
         const response = await customRequest("/applicant");
 
         const data = await response.json();
-
-        if (response.statusText == "error") {
-            console.error("Error fetching job profile!")
-        }
 
         return data;
     } catch(error) {
@@ -42,31 +35,29 @@ export const fetchApplicantProfile = async () => {
     }   
 }
 
-//Update job profile
 export const updateApplicantProfile = async ({applicantData, resumeFile }: { applicantData: ApplicantProfileType, resumeFile: File | null}) => {
-    const formData = new FormData()
+    try {
+        const formData = new FormData()
 
-    if (resumeFile) {   
-        formData.append("resumeFile", resumeFile)
+        if (resumeFile) {   
+            formData.append("resumeFile", resumeFile)
+        }
+
+        formData.append("applicantData", JSON.stringify(applicantData))
+
+        const response = await customRequest("/applicant", {
+            method: "PUT",
+            body: formData
+        })
+
+        const data = await response.json()
+
+        return data;
+    } catch(err) {
+        throw new Error(`Error updating job profile: ${err}`)
     }
-
-    formData.append("applicantData", JSON.stringify(applicantData))
-
-    const response = await customRequest("/applicant", {
-        method: "PUT",
-        body: formData
-    })
-
-    const data = await response.json()
-
-    if (response.statusText == "error") {
-        throw new Error("Error updating job profile!")
-    }
-
-    return data;
 }
 
-//Delete job profile
 export const deleteApplicantProfile = async () => {
     try {
         const response = await customRequest("/applicant",{

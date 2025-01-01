@@ -1,9 +1,10 @@
 import { SelectChangeEvent } from "@mui/material";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form-mui";
-import { useUpdateApplicantMutation } from "../api/applicant/mutations/use-update-applicant-mutation";
-import { JobProfileType } from "../types";
-import { useCreateApplicantMutation } from "../api/applicant/mutations/use-create-applicant-mutation";
+import { ApplicantProfileType } from "@/types";
+import { useCreateApplicantMutation, useUpdateApplicantMutation } from "../api/applicant/use-applicant-queries";
+
+
 export const skillsArray = [
   "Python",
   "JavaScript",
@@ -20,7 +21,7 @@ export const skillsArray = [
   "MySQL"
 ]
 
-export const useCreateProfileHandler = ( profileData: JobProfileType | undefined) => {
+export const useCreateProfileHandler = ( profileData: ApplicantProfileType | undefined) => {
   const [skillSet, setSkillSet] = useState<string[]>([]);
   const [resumeFile, setResumeFile] = useState<File | null>(null);
   const [resumeName, setResumeName] = useState<string>("");
@@ -29,7 +30,7 @@ export const useCreateProfileHandler = ( profileData: JobProfileType | undefined
     handleSubmit,
     register,
     control
-  } = useForm<JobProfileType>({
+  } = useForm<ApplicantProfileType>({
     defaultValues: {
       title: profileData && profileData.title || "",
       current_location: profileData && profileData.current_location || "",
@@ -57,12 +58,12 @@ export const useCreateProfileHandler = ( profileData: JobProfileType | undefined
     }
   }, [profileData])
 
-  const {fields: workFields, append: appendWorkExperience} = useFieldArray<JobProfileType>({
+  const {fields: workFields, append: appendWorkExperience} = useFieldArray<ApplicantProfileType>({
     control,
     name: "work_experience"
   })
 
-  const {fields: educationFields, append: appendEducation} = useFieldArray<JobProfileType>({
+  const {fields: educationFields, append: appendEducation} = useFieldArray<ApplicantProfileType>({
     control,
     name: "education"
   })
@@ -70,12 +71,12 @@ export const useCreateProfileHandler = ( profileData: JobProfileType | undefined
   const { createJobProfileMutate } = useCreateApplicantMutation()
   const { updateApplicantMutate } = useUpdateApplicantMutation()
   
-  const onSubmit: SubmitHandler<JobProfileType> = (applicantData: JobProfileType, event?: React.BaseSyntheticEvent) => {
+  const onSubmit: SubmitHandler<ApplicantProfileType> = (applicantData: ApplicantProfileType, event?: React.BaseSyntheticEvent) => {
     event?.preventDefault()
     
     if (resumeFile && !profileData) {
-        console.log("Create profile")
-        createJobProfileMutate({applicantData, resumeFile})
+      console.log("Create profile")
+      createJobProfileMutate({applicantData, resumeFile})
     } else {
       console.log("Update Profile")
       updateApplicantMutate({applicantData, resumeFile})

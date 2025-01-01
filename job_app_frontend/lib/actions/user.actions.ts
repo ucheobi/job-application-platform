@@ -8,26 +8,23 @@ import { redirect } from "next/navigation";
 import { createSession } from "../session";
 
 export const signInUser = async (loginData: UserLoginType) => {
-        const userData = new FormData();
-        userData.append("username", loginData.username)
-        userData.append("password", loginData.password)
+    const userData = new FormData();
+    userData.append("username", loginData.username)
+    userData.append("password", loginData.password)
 
-        const response = await customRequest("/login", {
-                method: "POST",
-                body: userData,
-            }   
-        )
+    const response = await customRequest("/login", {
+            method: "POST",
+            body: userData,
+        }   
+    )
 
-        const data = await response.json()
+    const data = await response.json()
+    const token = data.access_token
 
-        // Get access token
-        const token = data.access_token
+    // Create session
+    await createSession(token)
 
-        // Create session
-        await createSession(token)
-
-        // Redirect user to dashboard
-        redirect("/dashboard")
+    return data
 }
 
 export const createUser = async (userData: UserRegisterType) => {
@@ -47,21 +44,23 @@ export const createUser = async (userData: UserRegisterType) => {
 
 export const getCurrentUser = async () => {
     const cookieStore = await cookies() 
-    const token = cookieStore.get("user") 
+    const token = cookieStore.get("user")
 
-    const sessionData = decryptToken(token?.value as string) 
+    if (!token) { 
+        console.log(token)
+        redirect("/account/auth") 
+    }
 
-    const { first_name, last_name, user_id, email, role } = await sessionData
+    const sessionData = await decryptToken(token?.value as string) 
+
+    const { first_name, id, role } =  sessionData
 
     const userDetails: UserSession = {
         user: {
-            name: first_name + " " + last_name,
-            first_name,
-            last_name,
-            id: JSON.stringify(user_id),
-            email,
+            name: first_name,
+            id: JSON.stringify(id),
             role,
-            image: 'https://avatars.githubusercontent.com/u/19550456'
+            image: 'https://avatars.githubusercontent.com/u/19550456' // random image, will change later 
         }
     }
         
