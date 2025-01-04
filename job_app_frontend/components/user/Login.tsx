@@ -1,5 +1,5 @@
 
-import { LoginProps } from '@/types'
+import { LoginProps } from '@/app/types'
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import Alert from '@mui/material/Alert'

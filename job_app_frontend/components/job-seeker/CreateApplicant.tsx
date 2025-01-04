@@ -1,3 +1,5 @@
+import { skillsArray, useCreateProfileHandler } from "@/app/custom-hooks/use-create-profile-handler";
+import { CreateApplicantProps } from '@/app/types';
 import AddIcon from '@mui/icons-material/Add';
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -12,8 +14,6 @@ import Select from "@mui/material/Select";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import { styled, Theme, useTheme } from "@mui/material/styles";
-import { skillsArray, useCreateProfileHandler } from "@/app/custom-hooks/use-create-profile-handler";
-import { ProfileTabProps } from '@/types';
 
 
 const ITEM_HEIGHT = 48;
@@ -51,7 +51,7 @@ const CustomInputField = styled(Input)({
   },
 })
 
-const CreateApplicantProfile = ({ profileData, profileStatus, isEditing, handleCancelEditing}: ProfileTabProps ) => {
+const CreateApplicant = ({ profileData, profileStatus, isEditing, setIsEditing, handleCancelUpdate }: CreateApplicantProps ) => {
   const theme = useTheme();
 
   const {
@@ -67,7 +67,7 @@ const CreateApplicantProfile = ({ profileData, profileStatus, isEditing, handleC
     educationFields,
     handleAddEducation,
     handleAddWorkExperience,
-  } = useCreateProfileHandler(profileData)
+  } = useCreateProfileHandler({ profileData, isEditing, setIsEditing })
   
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -99,7 +99,7 @@ const CreateApplicantProfile = ({ profileData, profileStatus, isEditing, handleC
               <input
                 accept=".pdf,.doc,.docx"
                 onChange={handleFileChange}
-                required={profileStatus !== "success" ? true : false}
+                required={profileStatus !== "success"}
                 type="file"
                 className="text-sm"
               />
@@ -263,7 +263,7 @@ const CreateApplicantProfile = ({ profileData, profileStatus, isEditing, handleC
                   className="bg-green-800 hover:bg-green-700 w-1/4 border-none rounded-md text-white font-bold mr-4"  
                 />
 
-                <Button className='w-1/4 font-bold capitalize bg-red-800 hover:bg-red-700' variant="contained" onClick={handleCancelEditing}>Cancel</Button>
+                <Button className='w-1/4 font-bold capitalize bg-red-800 hover:bg-red-700' variant="contained" onClick={handleCancelUpdate}>Cancel</Button>
             </Stack>
           ) : (
             <CustomInputField 
@@ -282,4 +282,4 @@ const CreateApplicantProfile = ({ profileData, profileStatus, isEditing, handleC
   )
 }
 
-export default CreateApplicantProfile;
+export default CreateApplicant;

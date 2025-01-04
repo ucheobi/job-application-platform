@@ -1,7 +1,7 @@
 "use server"
 
+import { UserLoginType, UserRegisterType, UserResponseType, UserSession } from "@/app/types";
 import customRequest from "@/config/custom-config";
-import { UserLoginType, UserRegisterType, UserResponseType, UserSession } from "@/types";
 import { jwtDecode } from "jwt-decode";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -28,16 +28,16 @@ export const signInUser = async (loginData: UserLoginType) => {
 }
 
 export const createUser = async (userData: UserRegisterType) => {
-    const response = await customRequest("/register", {
+    const response = await customRequest("/user/signup", {
         method: "POST",
         body: JSON.stringify(userData)
     })
 
     const data = await response.json()
+    const token = data.access_token
 
-    if (response.statusText == "error") {
-        throw new Error("Error creating account!")
-    }
+    // Create session
+    await createSession(token)
 
     return data;
 }

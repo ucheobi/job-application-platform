@@ -1,8 +1,8 @@
 "use client"
 
-import { ErrorResponse } from "@/types"
-import { useMutation } from "@tanstack/react-query"
+import { ErrorResponse } from "@/app/types"
 import { createUser, signInUser } from "@/lib/actions/user.actions"
+import { useMutation } from "@tanstack/react-query"
 
 
 export const useCreateAccountMutation = () => {

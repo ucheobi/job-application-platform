@@ -1,4 +1,4 @@
-import { JobsProps } from '@/types';
+import { JobsProps } from '@/app/types';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';

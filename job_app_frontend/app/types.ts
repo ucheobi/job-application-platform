@@ -1,3 +1,4 @@
+import { UseMutateAsyncFunction, UseMutateFunction } from "@tanstack/react-query";
 import { Control, FieldErrors, UseFormHandleSubmit, UseFormRegister } from "react-hook-form-mui";
 
 export const roles = [
@@ -68,11 +69,16 @@ export type ApplicantProfileType = {
 }
 
 export interface ApplicantProfileDetailsProps extends ApplicantProfileType {
-    handleProfileEdit: () => void
+    handleProfileUpdate: () => void
     handleProfileDelete: () => void
     handleOpenModal: () => void
     handleCloseModal: () => void
     openDeleteModal: boolean
+}
+
+export interface ApplicantUpdateProps { 
+    applicantData: ApplicantProfileType, 
+    resumeFile: File | null
 }
 
 export type LoginProps = {
@@ -175,19 +181,23 @@ export interface PanelTabProps {
   value: number;
 }
 
-export type ProfileStatus = "success" | "error" | "pending"
+export type ProfileStatus = "success" | "error" | "pending" | "idle"
+
+export type CreateMutationType = UseMutateAsyncFunction<any, Error, {
+    applicantData: ApplicantProfileType;
+    resumeFile: File;
+}, unknown>
 
 export interface PanelProps {
     jobsData: Job[];
-    applicant: ApplicantProfileType | undefined
-    applicantStatus: ProfileStatus
 }
 
-export interface ProfileTabProps {
+export interface CreateApplicantProps {
   profileData: ApplicantProfileType | undefined;
   profileStatus: ProfileStatus;
   isEditing: boolean;
-  handleCancelEditing: () => void
+  setIsEditing: (state: boolean) => void
+  handleCancelUpdate: () => void
 }
 
 export interface InitialDataType {

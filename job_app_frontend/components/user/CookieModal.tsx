@@ -1,5 +1,5 @@
-import { CookieProps } from '@/types';
-import { Modal, Box, Typography, Button } from '@mui/material';
+import { CookieProps } from '@/app/types';
+import { Box, Button, Modal, Typography } from '@mui/material';
 
 const style = {
     transform: 'translate(-50%, -50%)',

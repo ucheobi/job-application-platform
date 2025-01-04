@@ -1,19 +1,19 @@
 "use client"
 
-import React, { useEffect, useMemo, useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { AppProvider } from "@toolpad/core/nextjs";
+import React, { useEffect, useMemo, useState } from 'react';
 
+import { UserSession } from '@/app/types';
+import JobLogo from '@/components/JobLogo';
+import theme from '@/components/dashboard-tab/theme';
 import { getCurrentUser, signOutUser } from '@/lib/actions/user.actions';
-import { UserSession } from '@/types';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import HomeIcon from '@mui/icons-material/Home';
 import Person2Icon from '@mui/icons-material/Person2';
 import WorkHistoryIcon from '@mui/icons-material/WorkHistory';
 import { AuthenticationContext, SessionContext } from '@toolpad/core/AppProvider';
 import { DashboardLayout as MuiDashboardLayout } from '@toolpad/core/DashboardLayout';
-import JobLogo from '@/components/JobLogo';
-import theme from '@/components/dashboard-tab/theme';
 
 
 export default function DashboardLayout({ 

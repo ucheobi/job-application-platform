@@ -1,77 +1,70 @@
 "use server"
 
+import { ApplicantProfileType, ApplicantUpdateProps } from "@/app/types"
 import customRequest from "@/config/custom-config"
-import { ApplicantProfileType } from "@/types"
 
 export const createApplicantProfile = async ({applicantData, resumeFile }: { applicantData: ApplicantProfileType, resumeFile: File }) => {
-   try {
     const formData = new FormData()
 
     formData.append("applicantData", JSON.stringify(applicantData))
     formData.append("resumeFile", resumeFile)
 
-    const response = await customRequest("/applicant",{
+    const response = await customRequest("/applicant/create",{
         method: "POST",
         body: formData,
     })
 
+    if (!response.ok) {
+        console.error("Error Creating applicant profile")
+    }
+
     const data = await response.json()
 
     return data;
-    } catch (err) {
-        throw new Error(`Error creating job profile!: ${err}`)
-    }
 }
 
 export const fetchApplicantProfile = async (): Promise<ApplicantProfileType | undefined> => {
-    try {
-        const response = await customRequest("/applicant");
+    const response = await customRequest("/applicant");
 
-        const data = await response.json();
+    if (!response.ok) {
+        console.error("Error fetching applicant profile")
+    }
 
-        return data;
-    } catch(error) {
-        console.error(`User does not have a profile details: ${error}`)
-    }   
+    const data = await response.json();
+
+    return data; 
 }
 
-export const updateApplicantProfile = async ({applicantData, resumeFile }: { applicantData: ApplicantProfileType, resumeFile: File | null}) => {
-    try {
-        const formData = new FormData()
+export const updateApplicantProfile = async ({applicantData, resumeFile }: ApplicantUpdateProps) => {
+    const formData = new FormData()
 
-        if (resumeFile) {   
-            formData.append("resumeFile", resumeFile)
-        }
-
-        formData.append("applicantData", JSON.stringify(applicantData))
-
-        const response = await customRequest("/applicant", {
-            method: "PUT",
-            body: formData
-        })
-
-        const data = await response.json()
-
-        return data;
-    } catch(err) {
-        throw new Error(`Error updating job profile: ${err}`)
+    if (resumeFile) {   
+        formData.append("resumeFile", resumeFile)
     }
+
+    formData.append("applicantData", JSON.stringify(applicantData))
+
+    const response = await customRequest("/applicant/update", {
+        method: "PUT",
+        body: formData
+    })
+
+    if (!response.ok) {
+        console.error("Error updating applicant profile")
+    }
+
+    const data = await response.json()
+
+    return data;
+   
 }
 
 export const deleteApplicantProfile = async () => {
-    try {
-        const response = await customRequest("/applicant",{
-            method: "DELETE",
-        });
+    const response = await customRequest("/applicant/delete",{
+        method: "DELETE",
+    });
 
-        const data = await response.json();
-
-        if (response.statusText == "error") {
-            throw new Error("Error deleting job profile!")
-        }
-
-        return data;
-    } catch(error) {
-        throw new Error(`User does not have a profile details: ${error}`)
-    }   
+    if (!response.ok) {
+        console.error("Error Deleting applicant profile")
+    }
 }

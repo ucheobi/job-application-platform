@@ -1,8 +1,8 @@
 "use client"
 
-import { Job } from '@/types'
-import JobCard from './JobCard'
+import { Job } from '@/app/types'
 import Box from '@mui/material/Box'
+import JobCard from './JobCard'
 
 const JobProfile = ({ jobs }: { jobs: Job[] | null }) => { 
   const handleViewJob = () => {

@@ -1,33 +1,25 @@
+import { ApplicantProfileType } from "@/app/types"
+import { createApplicantProfile, deleteApplicantProfile, fetchApplicantProfile, updateApplicantProfile } from "@/lib/actions/applicant.actions"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { createApplicantProfile, fetchApplicantProfile, updateApplicantProfile, deleteApplicantProfile } from "@/lib/actions/applicant.actions"
-import { ApplicantProfileType } from "@/types"
 
 
 export const useCreateApplicantMutation = () => {
-    //const { profileRefetch } = useFetchApplicantProfile()
+    const queryClient = useQueryClient()
 
-    const { mutate, status, error, isPending, isSuccess, data, reset} = useMutation({
+    const applicantMutation = useMutation({
         mutationKey: ['profile'],
         mutationFn: createApplicantProfile,
-        // onSuccess: () => {
-        //     profileRefetch()
-        // }
+        onSuccess: (data) => {
+            queryClient.setQueryData(["profile"], data)
+        }
     })
 
-    return {
-        createJobStatus: status,
-        createJobSuccess: isSuccess,
-        createJobError: error,
-        createJobPending: isPending,
-        createJobData: data,
-        createJobProfileMutate: mutate,
-        createJobReset: reset
-    }
+    return applicantMutation
 }
 
 export const useFetchApplicantProfile = () => { 
 
-    const { isPending, data, error, status, refetch, } = useQuery<Promise<ApplicantProfileType | undefined>>({
+    const { isPending, data, error, status, refetch, } = useQuery<ApplicantProfileType | undefined>({
         queryKey: ["profile"],
         queryFn: fetchApplicantProfile,  
     })
@@ -42,16 +34,14 @@ export const useFetchApplicantProfile = () => {
 }
 
 export const useUpdateApplicantMutation = () => {
-    //const { profileRefetch } = useFetchApplicantProfile()
+    const queryClient = useQueryClient()
  
      const { mutate, status, error, isPending, isSuccess, data} = useMutation({
-         mutationKey: ['profile-update'],
+         mutationKey: ['profile'],
          mutationFn: updateApplicantProfile,
-        //  onSuccess: () => {
-        //      // Refetches applicant profile after successful update
-        //      // I dont want to use the returned data from this mutation
-        //      profileRefetch() 
-        //  }
+         onSuccess: (data) => {
+            queryClient.setQueryData(["profile"], data)
+         }
      })
  
      return {
@@ -67,18 +57,17 @@ export const useUpdateApplicantMutation = () => {
 export const useDeleteApplicantProfile = () => {
     const queryClient = useQueryClient()
 
-    const { error, status, mutateAsync, isSuccess } = useMutation({
-        mutationKey: ["profile-delete"],
+    const { error, status, mutateAsync } = useMutation({
+        mutationKey: ["profile"],
         mutationFn: deleteApplicantProfile,
-        onSuccess: () => {
+        onSuccess: () => { 
             queryClient.resetQueries({queryKey: ['profile'], exact: true})
-        }
+         }
     })
 
     return {
         deleteProfileError: error,
         deleteProfileMutate: mutateAsync,
         deleteProfileStatus: status,
-        deleteSuccessful: isSuccess
     }
 }

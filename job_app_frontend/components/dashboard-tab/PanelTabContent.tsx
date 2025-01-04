@@ -1,4 +1,4 @@
-import { PanelTabProps } from "@/types";
+import { PanelTabProps } from "@/app/types";
 import Box from "@mui/material/Box";
 
 

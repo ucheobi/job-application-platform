@@ -1,4 +1,4 @@
-import { ApplicantProfileDetailsProps } from '@/types'
+import { ApplicantProfileDetailsProps } from '@/app/types'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
@@ -14,7 +14,7 @@ const ProfileDetails = ({
     education,
     owner,
     resume_url,
-    handleProfileEdit,
+    handleProfileUpdate,
     handleProfileDelete,
     handleCloseModal,
     handleOpenModal,
@@ -24,7 +24,7 @@ const ProfileDetails = ({
   return (
     <Box>
         <Stack className='flex justify-end flex-row mr-2'>
-            <Button className='font-bold bg-green-800 hover:bg-green-700 mr-4' variant="contained" onClick={handleProfileEdit}>Edit</Button>
+            <Button className='font-bold bg-green-800 hover:bg-green-700 mr-4' variant="contained" onClick={handleProfileUpdate}>Edit</Button>
             <Button className=' font-bold bg-red-800 hover:bg-red-700' variant="contained" onClick={handleOpenModal}>Delete</Button>
         </Stack>
 

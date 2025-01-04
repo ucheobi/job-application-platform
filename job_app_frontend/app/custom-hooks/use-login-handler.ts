@@ -1,6 +1,6 @@
 import { SubmitHandler, useForm } from "react-hook-form-mui";
-import { UserLoginType } from "../../types";
 import { useSignInMutation } from "../api/user/use-account-queries";
+import { UserLoginType } from "../types";
 
 
 export const useLoginHandler = () => {

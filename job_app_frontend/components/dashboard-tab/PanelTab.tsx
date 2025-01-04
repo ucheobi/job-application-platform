@@ -1,25 +1,38 @@
 "use client"
 
+import { useDeleteApplicantProfile, useFetchApplicantProfile } from '@/app/api/applicant/use-applicant-queries';
+import { PanelProps } from '@/app/types';
+import { Button, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
-import React, { useState } from 'react';
-import CreateApplicantProfile from '../job-seeker/CreateApplicantProfile';
-import { a11yProps, PanelTabContent } from './PanelTabContent';
-import { PanelProps } from '@/types';
-import JobProfile from '../jobs/JobProfile';
+import { useMutationState } from '@tanstack/react-query';
+import React, { useEffect, useState } from 'react';
+import CreateApplicant from '../job-seeker/CreateApplicant';
 import ProfileDetails from '../job-seeker/ProfileDetails';
-import { useDeleteApplicantProfile } from '@/app/api/applicant/use-applicant-queries';
-
+import JobProfile from '../jobs/JobProfile';
+import { a11yProps, PanelTabContent } from './PanelTabContent';
 
 const firstTabReference = 0;
 
-export default function PanelTab({ jobsData, applicant: profileData, applicantStatus }: PanelProps) {
+export default function PanelTab({ jobsData }: PanelProps) {
   const [value, setValue] = useState(firstTabReference);
   const [isEditing, setIsEditing] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
   const { deleteProfileMutate } = useDeleteApplicantProfile()
+  const { profileData, profileStatus } = useFetchApplicantProfile()
+
+  const status = useMutationState({
+    filters: { mutationKey: ["profile"] },
+    select: (mutation) => mutation.state.status,
+  })
+
+  useEffect(() => {
+  if (status.includes("success")) {
+    setValue(2)
+  }
+  }, [status])
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     event.preventDefault()
@@ -27,28 +40,23 @@ export default function PanelTab({ jobsData, applicant: profileData, applicantSt
     setValue(newValue);
   };
 
-  const handleProfileEdit = () => {
+  const handleProfileUpdate = () => {
     setIsEditing(!isEditing)
     setValue(1)
   }
 
-  const handleCancelEditing = () => {
+  const handleCancelUpdate = () => {
     setIsEditing(!isEditing)
     setValue(2)
   }
 
   const handleProfileDelete = async () => {
     await deleteProfileMutate()
-    setValue(1)
+    handleCloseModal()
   }
 
   const handleOpenModal = () => setOpenDeleteModal(true)
   const handleCloseModal = () => setOpenDeleteModal(false)
- 
-  // if (updateApplicantStatus === "success") {
-  //     setIsEditing(false)
-  //     setValue(2)
-  // }
 
   return (
     <Box>
@@ -72,15 +80,16 @@ export default function PanelTab({ jobsData, applicant: profileData, applicantSt
         <JobProfile jobs={jobsData} />
       </PanelTabContent>
       <PanelTabContent value={value} index={1}>
-        <CreateApplicantProfile 
+        <CreateApplicant
           profileData={profileData}
-          profileStatus={applicantStatus}
+          profileStatus={profileStatus}
           isEditing={isEditing}
-          handleCancelEditing={handleCancelEditing}
+          setIsEditing={setIsEditing}
+          handleCancelUpdate={handleCancelUpdate}
         />
       </PanelTabContent>
       <PanelTabContent value={value} index={2}>
-        { profileData && (
+        { profileData ? (
             <ProfileDetails
               owner={profileData.owner}
               title={profileData.title} 
@@ -90,12 +99,17 @@ export default function PanelTab({ jobsData, applicant: profileData, applicantSt
               skills={profileData.skills} 
               education={profileData.education} 
               work_experience={profileData.work_experience}
-              handleProfileEdit={handleProfileEdit}
+              handleProfileUpdate={handleProfileUpdate}
               handleProfileDelete={handleProfileDelete}
               openDeleteModal={openDeleteModal}
               handleOpenModal={handleOpenModal}
               handleCloseModal={handleCloseModal}
             />
+          ) : (
+            <>
+              <Typography>You don't have a profile. Click the button below to create a profile...</Typography>
+              <Button className='mt-2 font-bold' variant='contained' onClick={() => setValue(1)}>Create profile</Button>
+            </>
           )
         }
       </PanelTabContent>

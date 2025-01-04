@@ -1,6 +1,6 @@
 import { SubmitHandler, useForm } from "react-hook-form-mui";
-import { UserRegisterType } from "../../types";
 import { useCreateAccountMutation } from "../api/user/use-account-queries";
+import { UserRegisterType } from "../types";
 
 
 export const useRegisterHandler = () => {

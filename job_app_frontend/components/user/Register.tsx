@@ -13,7 +13,7 @@ import Select from '@mui/material/Select'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import { Controller } from 'react-hook-form-mui'
-import { RegisterProps } from '../../types'
+import { RegisterProps } from '../../app/types'
 
 
 const Register = ({

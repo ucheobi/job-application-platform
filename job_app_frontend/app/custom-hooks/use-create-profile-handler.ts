@@ -1,7 +1,7 @@
+import { ApplicantProfileType } from "@/app/types";
 import { SelectChangeEvent } from "@mui/material";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form-mui";
-import { ApplicantProfileType } from "@/types";
 import { useCreateApplicantMutation, useUpdateApplicantMutation } from "../api/applicant/use-applicant-queries";
 
 
@@ -21,7 +21,13 @@ export const skillsArray = [
   "MySQL"
 ]
 
-export const useCreateProfileHandler = ( profileData: ApplicantProfileType | undefined) => {
+interface CreateProfileHandlerProps {
+  profileData: ApplicantProfileType | undefined, 
+  isEditing: boolean, 
+  setIsEditing: (state: boolean) => void
+}
+
+export const useCreateProfileHandler = ( {profileData, isEditing, setIsEditing}: CreateProfileHandlerProps) => {
   const [skillSet, setSkillSet] = useState<string[]>([]);
   const [resumeFile, setResumeFile] = useState<File | null>(null);
   const [resumeName, setResumeName] = useState<string>("");
@@ -51,6 +57,9 @@ export const useCreateProfileHandler = ( profileData: ApplicantProfileType | und
     }
   });
 
+  const { updateApplicantMutate } = useUpdateApplicantMutation()
+  const applicantMutation = useCreateApplicantMutation()
+
   useEffect(() => {
     if (profileData && profileData.skills && profileData.resume_url) {
       setSkillSet(profileData.skills)
@@ -67,20 +76,19 @@ export const useCreateProfileHandler = ( profileData: ApplicantProfileType | und
     control,
     name: "education"
   })
-
-  const { createJobProfileMutate } = useCreateApplicantMutation()
-  const { updateApplicantMutate } = useUpdateApplicantMutation()
   
-  const onSubmit: SubmitHandler<ApplicantProfileType> = (applicantData: ApplicantProfileType, event?: React.BaseSyntheticEvent) => {
+  const onSubmit: SubmitHandler<ApplicantProfileType> = async (applicantData: ApplicantProfileType, event?: React.BaseSyntheticEvent) => {
     event?.preventDefault()
     
     if (resumeFile && !profileData) {
       console.log("Create profile")
-      createJobProfileMutate({applicantData, resumeFile})
+      await applicantMutation.mutateAsync({applicantData, resumeFile})
     } else {
       console.log("Update Profile")
       updateApplicantMutate({applicantData, resumeFile})
     }
+
+    setIsEditing(!isEditing)
 
   }
 

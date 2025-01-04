@@ -1,5 +1,5 @@
+import { Job } from "@/app/types"
 import { fetchJobs } from "@/lib/actions/job.actions"
-import { Job } from "@/types"
 import { useQuery, useQueryClient } from "@tanstack/react-query"
 
 
