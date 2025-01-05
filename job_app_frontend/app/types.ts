@@ -132,7 +132,7 @@ export interface JobsProps {
     location: string;
     jobType: string;
     techStack: string;
-    handleViewJob: () => void;
+    handleViewJob: (event: React.MouseEvent<HTMLButtonElement>) => void;
     handleApplyJob: () => void;
 }
 
@@ -173,6 +173,13 @@ export interface Job {
     other_details: string;
     our_offers: string;
     company: Company;
+}
+
+export interface JobDetailsProps {
+    job: Job
+    openJobDetails: boolean
+    handleJobApply: () => void
+    handleCloseJobDetails: () => void
 }
 
 export interface PanelTabProps {

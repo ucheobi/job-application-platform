@@ -29,9 +29,9 @@ export default function PanelTab({ jobsData }: PanelProps) {
   })
 
   useEffect(() => {
-  if (status.includes("success")) {
-    setValue(2)
-  }
+    if (status.includes("success")) {
+      setValue(2)
+    }
   }, [status])
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -55,6 +55,8 @@ export default function PanelTab({ jobsData }: PanelProps) {
     handleCloseModal()
   }
 
+  const handleSetValue = (val: number) => setValue(val)
+
   const handleOpenModal = () => setOpenDeleteModal(true)
   const handleCloseModal = () => setOpenDeleteModal(false)
 
@@ -77,7 +79,7 @@ export default function PanelTab({ jobsData }: PanelProps) {
 
   {/* Tab contents */}
       <PanelTabContent value={value} index={0}>
-        <JobProfile jobs={jobsData} />
+        <JobProfile jobs={jobsData} handleSetValue={handleSetValue} />
       </PanelTabContent>
       <PanelTabContent value={value} index={1}>
         <CreateApplicant

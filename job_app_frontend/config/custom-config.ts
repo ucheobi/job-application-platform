@@ -1,6 +1,7 @@
 "use server"
 
 import { cookies } from "next/headers"
+import { redirect } from "next/navigation"
 
 const baseURL = "http://127.0.0.1:8000"
 
@@ -29,6 +30,10 @@ export const customRequest = async (endpoint: string, options: RequestInit = {})
         ...options,
         headers
     })
+
+    if (response.status === 401) {
+        redirect("/account/auth")
+    }
 
     if (!response.ok) {
         console.error(`Http Error: ${response.status} ${response.statusText}`)

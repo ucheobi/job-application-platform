@@ -22,6 +22,7 @@ export const useFetchApplicantProfile = () => {
     const { isPending, data, error, status, refetch, } = useQuery<ApplicantProfileType | undefined>({
         queryKey: ["profile"],
         queryFn: fetchApplicantProfile,  
+        retry: 2
     })
 
     return {
