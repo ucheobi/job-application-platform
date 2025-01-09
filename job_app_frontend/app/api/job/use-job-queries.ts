@@ -1,6 +1,6 @@
 import { Job } from "@/app/types"
-import { fetchJobs } from "@/lib/actions/job.actions"
-import { useQuery, useQueryClient } from "@tanstack/react-query"
+import { applyJob, fetchJobs } from "@/lib/actions/job.actions"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 
 export const useFetchJobs = () => {
@@ -18,4 +18,13 @@ export const useFetchJobs = () => {
         jobsData: data,
         jobsStatus: status,
     }
+}
+
+export const useApplyJob = () => {
+    const applicationResult = useMutation({
+        mutationKey: ["application"],
+        mutationFn: applyJob
+    })
+
+    return applicationResult
 }

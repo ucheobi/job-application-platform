@@ -1,4 +1,4 @@
-import { UseMutateAsyncFunction, UseMutateFunction } from "@tanstack/react-query";
+import { UseMutateAsyncFunction } from "@tanstack/react-query";
 import { Control, FieldErrors, UseFormHandleSubmit, UseFormRegister } from "react-hook-form-mui";
 
 export const roles = [
@@ -126,19 +126,17 @@ export interface DeleteModalProps {
     handleProfileDelete: () => void;
 }
 
+export type Status = "Open" | "Closed"
+
 export interface JobsProps {
     jobTitle: string;
     companyName: string;
     location: string;
     jobType: string;
     techStack: string;
+    status: Status;
     handleViewJob: (event: React.MouseEvent<HTMLButtonElement>) => void;
     handleApplyJob: () => void;
-}
-
-enum JobStatus {
-    "open",
-    "closed"
 }
 
 enum CompanySize {
@@ -169,7 +167,7 @@ export interface Job {
     salary_max: number;
     salary_min: number;
     posted_date: string;
-    status: JobStatus;
+    status: Status;
     other_details: string;
     our_offers: string;
     company: Company;
@@ -216,4 +214,8 @@ export interface InitialDataType {
 export interface CookieProps {
     cookiesAccepted: boolean
     handleBackgroundActivity: () => Promise<void>, 
+}
+
+export interface JobApplicationProps {
+    job_id: number | undefined
 }

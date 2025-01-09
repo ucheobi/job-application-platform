@@ -11,6 +11,7 @@ export default function JobCard({
     techStack, 
     location, 
     jobType, 
+    status,
     handleApplyJob, 
     handleViewJob 
 }: JobsProps) {
@@ -33,7 +34,7 @@ export default function JobCard({
 
         <CardActions>
             <Button onClick={handleViewJob} size="small" className='font-bold'>View Full Description</Button>
-            <Button onClick={handleApplyJob} size="small" variant='contained' className='font-bold'>Apply Now</Button>
+            <Button onClick={handleApplyJob} size="small" disabled={status === "Closed"} variant='contained' className='font-bold'>Apply Now</Button>
         </CardActions>
     </Card>
   );

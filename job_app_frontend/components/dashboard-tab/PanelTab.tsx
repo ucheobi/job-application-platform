@@ -12,13 +12,15 @@ import CreateApplicant from '../job-seeker/CreateApplicant';
 import ProfileDetails from '../job-seeker/ProfileDetails';
 import JobProfile from '../jobs/JobProfile';
 import { a11yProps, PanelTabContent } from './PanelTabContent';
-
+import JobApplication from '../jobs/JobApplication';
 const firstTabReference = 0;
 
 export default function PanelTab({ jobsData }: PanelProps) {
   const [value, setValue] = useState(firstTabReference);
   const [isEditing, setIsEditing] = useState(false);
+  const [isApplied, setIsApplied] = useState<boolean>(true)
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [selectedJobId, setSelectedJobId] = useState<number | undefined>(undefined)
 
   const { deleteProfileMutate } = useDeleteApplicantProfile()
   const { profileData, profileStatus } = useFetchApplicantProfile()
@@ -57,6 +59,11 @@ export default function PanelTab({ jobsData }: PanelProps) {
 
   const handleSetValue = (val: number) => setValue(val)
 
+  const handleApply = (jobId: number | undefined) => {
+    setIsApplied(false)
+    setSelectedJobId(jobId)
+  }
+
   const handleOpenModal = () => setOpenDeleteModal(true)
   const handleCloseModal = () => setOpenDeleteModal(false)
 
@@ -72,14 +79,13 @@ export default function PanelTab({ jobsData }: PanelProps) {
           <Tab className="text-xs font-bold" label="Home" {...a11yProps(0)} />
           <Tab className="text-xs font-bold" disabled={profileData && !isEditing} label="Create Profile" {...a11yProps(1)} />
           <Tab className="text-xs font-bold" label="Profile Details" {...a11yProps(2)} />
-          <Tab className="text-xs font-bold" label="Job Details" {...a11yProps(3)} />
-          <Tab className="text-xs font-bold" label="Apply for Jobs" {...a11yProps(4)} />
+          <Tab className="text-xs font-bold" disabled={isApplied} label="Apply for Jobs" {...a11yProps(3)} />
         </Tabs>
       </Box>
 
   {/* Tab contents */}
       <PanelTabContent value={value} index={0}>
-        <JobProfile jobs={jobsData} handleSetValue={handleSetValue} />
+        <JobProfile jobs={jobsData} handleSetValue={handleSetValue} handleApply={handleApply} />
       </PanelTabContent>
       <PanelTabContent value={value} index={1}>
         <CreateApplicant
@@ -109,17 +115,14 @@ export default function PanelTab({ jobsData }: PanelProps) {
             />
           ) : (
             <>
-              <Typography>You don't have a profile. Click the button below to create a profile...</Typography>
+              <Typography>You don&apos;t have a profile. Click the button below to create a profile...</Typography>
               <Button className='mt-2 font-bold' variant='contained' onClick={() => setValue(1)}>Create profile</Button>
             </>
           )
         }
       </PanelTabContent>
       <PanelTabContent value={value} index={3}>
-        Job details component
-      </PanelTabContent>
-      <PanelTabContent value={value} index={4}>
-        Apply for Job component
+        <JobApplication job_id={selectedJobId} />
       </PanelTabContent>
     </Box>
   );

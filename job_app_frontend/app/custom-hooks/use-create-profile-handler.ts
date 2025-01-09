@@ -23,11 +23,10 @@ export const skillsArray = [
 
 interface CreateProfileHandlerProps {
   profileData: ApplicantProfileType | undefined, 
-  isEditing: boolean, 
   setIsEditing: (state: boolean) => void
 }
 
-export const useCreateProfileHandler = ( {profileData, isEditing, setIsEditing}: CreateProfileHandlerProps) => {
+export const useCreateProfileHandler = ( {profileData, setIsEditing}: CreateProfileHandlerProps) => {
   const [skillSet, setSkillSet] = useState<string[]>([]);
   const [resumeFile, setResumeFile] = useState<File | null>(null);
   const [resumeName, setResumeName] = useState<string>("");
@@ -82,14 +81,13 @@ export const useCreateProfileHandler = ( {profileData, isEditing, setIsEditing}:
     
     if (resumeFile && !profileData) {
       console.log("Create profile")
+      setIsEditing(false)
       await applicantMutation.mutateAsync({applicantData, resumeFile})
     } else {
       console.log("Update Profile")
+      setIsEditing(false)
       updateApplicantMutate({applicantData, resumeFile})
     }
-
-    setIsEditing(!isEditing)
-
   }
 
   const handleFileChange = (event?: React.ChangeEvent<HTMLInputElement>) => {
